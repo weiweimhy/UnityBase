@@ -1,0 +1,9 @@
+<dependencies>
+  <iosPods>
+    <iosPod name="CocoaLumberjack">
+      <sources>
+        <source>https://github.com/CocoaPods/Specs</source>
+      </sources>
+    </iosPod>
+  </iosPods>
+</dependencies>
