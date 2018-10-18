@@ -12,4 +12,5 @@
     - 添加Framework
     - 添加Library
     - 修改属性，Eg：关闭bitcode，添加other link flag
-    - 修改plist.info，目前只支持stirng-string
+    - 修改plist.info，目前只支持string-string
+    - 添加File
