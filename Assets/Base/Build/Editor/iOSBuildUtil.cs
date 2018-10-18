@@ -101,7 +101,7 @@ namespace Base.Editor.Build
             {
                 for(int i = 0;i < libraries.Count; ++i)
                 {
-                    string fileLibrary = pbxProject.AddFile("/usr/bin/" + libraries[i], "Frameworks/" + libraries[i], PBXSourceTree.Sdk);
+                    string fileLibrary = pbxProject.AddFile("/usr/lib/" + libraries[i], "Frameworks/" + libraries[i], PBXSourceTree.Sdk);
                     pbxProject.AddFileToBuild(targetGuid, fileLibrary);
                 }
             }
