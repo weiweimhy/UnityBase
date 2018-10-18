@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609f9b7b554bbb140ade348b8a8df243, type: 3}
+  m_Name: BuildProjectSetting
+  m_EditorClassIdentifier: 
+  iOSVersionName: 0.0.1
+  iOSBuildCode: 0
+  iOSExportPath: /Users/mac126/workspace/out/base-temp
+  signTeamID: RFHHE82KAM
+  capabilitys: 
+  frameworks:
+  - CoreData.framework
+  libraries:
+  - /usr/bin/libsqlite3.tbd
+  properties:
+  - key: ENABLE_BITCODE
+    value: NO
+  - key: GCC_ENABLE_OBJC_EXCEPTIONS
+    value: YES
+  - key: OTHER_LDFLAGS
+    value: 
+  plists:
+  - key: NSLocationWhenInUseUsageDescription
+    value: '"Bible Word Puzzle" would like to use your current location'
+  androidVersionName: 0.0.1
+  androidVersionCode: 0
+  androidExportPath: D:\WorkSpace\Out\base-temp
