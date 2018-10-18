@@ -15,19 +15,18 @@ MonoBehaviour:
   iOSBuildCode: 0
   iOSExportPath: /Users/mac126/workspace/out/base-temp
   signTeamID: RFHHE82KAM
-  capabilitys: 090000000e000000
+  capabilitys: 
   frameworks:
   - CoreData.framework
-  - iAd.framework
   libraries:
-  - /usr/lib/libsqlite3.tbd
+  - /usr/bin/libsqlite3.tbd
   properties:
   - key: ENABLE_BITCODE
     value: NO
   - key: GCC_ENABLE_OBJC_EXCEPTIONS
     value: YES
   - key: OTHER_LDFLAGS
-    value: -lxml2
+    value: 
   plists:
   - key: NSLocationWhenInUseUsageDescription
     value: '"Bible Word Puzzle" would like to use your current location'

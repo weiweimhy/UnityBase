@@ -10,6 +10,8 @@ namespace Base.Editor.Build
 {
     public class iOSBuildUtil
     {
+        private static string TAG = "[iOSBuildUtil] ";
+
         #region Build
         [MenuItem("Build/Export iOS XCode Project", false, 2)]
         public static void ExportXCodeProject()
@@ -93,8 +95,15 @@ namespace Base.Editor.Build
             {
                 for(int i = 0;i < libraries.Count; ++i)
                 {
-                    string fileLibrary = pbxProject.AddFile(libraries[i], libraries[i], PBXSourceTree.Sdk);
-                    pbxProject.AddFileToBuild(targetGuid, fileLibrary);
+                    if (!File.Exists(libraries[i]))
+                    {
+                        Debug.LogError(TAG + "AddLibrary failed, library path : " + libraries[i]);
+                    }
+                    else
+                    {
+                        string fileLibrary = pbxProject.AddFile(libraries[i], libraries[i], PBXSourceTree.Sdk);
+                        pbxProject.AddFileToBuild(targetGuid, fileLibrary);
+                    }
                 }
             }
         }
