@@ -32,7 +32,7 @@ namespace Base.Editor.Build
         [Header("plists:")]
         public List<KeyValueItem> plists;
         [Header("Add files, path is relative to Assets/")]
-        public List<string> files;
+		public List<Object> files;
 
         [Space(50)]
         [Header("version:")]

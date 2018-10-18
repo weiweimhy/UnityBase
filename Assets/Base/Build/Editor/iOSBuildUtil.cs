@@ -23,6 +23,7 @@ namespace Base.Editor.Build
         #region Xcode project process
         private static readonly string entitlementsFilePath = 
             Path.Combine(PBXProject.GetUnityTargetName(),"project.entitlements");
+		private static readonly string unityProjectPath = Path.GetDirectoryName(Application.dataPath);
 
         private static string targetGuid = null;
         private static PBXProject pbxProject = null;
@@ -36,11 +37,10 @@ namespace Base.Editor.Build
                 return;
             }
 
+			xcodeProjectPath = path;
+
             // eg: /Users/apple/exports/iOS/Unity-iPhone.xcodeproj/project.pbxproj
             string projPath = PBXProject.GetPBXProjectPath(path);
-            // eg: /Users/apple/exports/iOS
-            xcodeProjectPath = Directory.GetParent(projPath).FullName;
-            Debug.Log("xcodeProjectPath = " + xcodeProjectPath);
 
             pbxProject = new PBXProject();
             // proj.ReadFromString(File.ReadAllText(projPath));
@@ -151,15 +151,19 @@ namespace Base.Editor.Build
 
         static void AddFile()
         {
-            List<string> files = BuildProjectSetting.instance.files;
+			List<Object> files = BuildProjectSetting.instance.files;
             if(files != null)
             {
                 for(int i = 0;i < files.Count; ++i)
                 {
-                    string fileName = Path.GetFileName(files[i]);
-                    string sourcePath = Path.Combine(Application.dataPath, files[i]);
-                    File.Copy(sourcePath, Path.Combine(xcodeProjectPath, fileName));
-                    pbxProject.AddFile(sourcePath, fileName);
+					// eg:Assets/xxx/xxxx.xxx
+					string fileRelativePath = AssetDatabase.GetAssetPath(files[i]);
+					string fileName = Path.GetFileName (fileRelativePath);
+					string sourceFilePath = Path.Combine(unityProjectPath,fileRelativePath);
+					string destFilePath = Path.Combine(xcodeProjectPath, fileName);
+					File.Copy(sourceFilePath, destFilePath);
+					// 不调用AddFileToBuild会Crash
+					pbxProject.AddFileToBuild(targetGuid, pbxProject.AddFile(destFilePath, fileName));
                 }
             }
         }
