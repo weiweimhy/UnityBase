@@ -51,7 +51,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.V(tag, message);
 #elif UNITY_IOS
-                Log2iOS.V(tag + " " + message);
+                Log2iOS.v(tag + " " + message);
 #endif
             }
         }
@@ -86,7 +86,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.D(tag, message);
 #elif UNITY_IOS
-                Log2iOS.D(tag + " " + message);
+                Log2iOS.d(tag + " " + message);
 #endif
             }
         }
@@ -121,7 +121,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.I(tag, message);
 #elif UNITY_IOS
-                Log2iOS.I(tag + " " + message);
+                Log2iOS.i(tag + " " + message);
 #endif
             }
         }
@@ -156,7 +156,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.W(tag, message);
 #elif UNITY_IOS
-                Log2iOS.W(tag + " " + message);
+                Log2iOS.w(tag + " " + message);
 #endif
             }
         }
@@ -192,7 +192,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.E(tag, message);
 #elif UNITY_IOS
-                Log2iOS.E(tag + " " + message);
+                Log2iOS.e(tag + " " + message);
 #endif
             }
         }
