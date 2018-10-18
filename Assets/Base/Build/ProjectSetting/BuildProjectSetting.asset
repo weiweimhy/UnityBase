@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: BuildProjectSetting
   m_EditorClassIdentifier: 
   iOSVersionName: 0.0.1
-  iOSBuildCode: 0
+  iOSBuildCode: 1
   iOSExportPath: /Users/mac126/workspace/out/base-temp
   signTeamID: RFHHE82KAM
   capabilitys: 
@@ -31,5 +31,5 @@ MonoBehaviour:
   - key: NSLocationWhenInUseUsageDescription
     value: '"Bible Word Puzzle" would like to use your current location'
   androidVersionName: 0.0.1
-  androidVersionCode: 0
+  androidVersionCode: 1
   androidExportPath: D:\WorkSpace\Out\base-temp
