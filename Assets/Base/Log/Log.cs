@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Base.Log
 {
@@ -50,6 +51,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.V(tag, message);
 #elif UNITY_IOS
+                Log2iOS.V(tag + " " + message);
 #endif
             }
         }
@@ -84,6 +86,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.D(tag, message);
 #elif UNITY_IOS
+                Log2iOS.D(tag + " " + message);
 #endif
             }
         }
@@ -118,6 +121,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.I(tag, message);
 #elif UNITY_IOS
+                Log2iOS.I(tag + " " + message);
 #endif
             }
         }
@@ -152,6 +156,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.W(tag, message);
 #elif UNITY_IOS
+                Log2iOS.W(tag + " " + message);
 #endif
             }
         }
@@ -187,6 +192,7 @@ namespace Base.Log
 #elif UNITY_ANDROID
                 Log2Android.E(tag, message);
 #elif UNITY_IOS
+                Log2iOS.E(tag + " " + message);
 #endif
             }
         }
