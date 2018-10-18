@@ -95,15 +95,8 @@ namespace Base.Editor.Build
             {
                 for(int i = 0;i < libraries.Count; ++i)
                 {
-                    if (!File.Exists(libraries[i]))
-                    {
-                        Debug.LogError(TAG + "AddLibrary failed, library path : " + libraries[i]);
-                    }
-                    else
-                    {
-                        string fileLibrary = pbxProject.AddFile(libraries[i], libraries[i], PBXSourceTree.Sdk);
-                        pbxProject.AddFileToBuild(targetGuid, fileLibrary);
-                    }
+                    string fileLibrary = pbxProject.AddFile("/usr/bin/" + libraries[i], "Frameworks/" + libraries[i], PBXSourceTree.Sdk);
+                    pbxProject.AddFileToBuild(targetGuid, fileLibrary);
                 }
             }
         }
