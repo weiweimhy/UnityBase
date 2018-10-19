@@ -1,6 +1,12 @@
 # Unity 基础工程
 
-## v0.0.1
+## 功能点
+- Log系统
+- Xcode导出
+
+
+## Release notes
+### v0.0.1
 - 增加基础Log系统，Android/iOS使用不同的Log系统
   * Android Log.*
   * iOS CocoaLumberjack库
