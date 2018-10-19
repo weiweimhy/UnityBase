@@ -21,10 +21,16 @@ namespace Base.Editor.Build
         #endregion
 
         #region Xcode project process
-        private static readonly string entitlementsFilePath = Path.Combine(PBXProject.GetUnityTargetName(),"project.entitlements");
+		private static readonly string unityProjectPath = Path.GetDirectoryName(Application.dataPath);
+
+        private static readonly string xcodeEntitlementsFilePath = 
+            Path.Combine(PBXProject.GetUnityTargetName(),"project.entitlements");
 
         private static string targetGuid = null;
         private static PBXProject pbxProject = null;
+        private static string xcodeProjectExportPath = null;
+        // eg: /Users/apple/exports/iOS/Unity-iPhone.xcodeproj/project.pbxproj
+        private static string pbxProjectPath = null;
 
         [PostProcessBuild]
         public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
@@ -34,14 +40,7 @@ namespace Base.Editor.Build
                 return;
             }
 
-            // eg: /Users/apple/exports/iOS/Unity-iPhone.xcodeproj/project.pbxproj
-            string projPath = PBXProject.GetPBXProjectPath(path);
-            pbxProject = new PBXProject();
-            // proj.ReadFromString(File.ReadAllText(projPath));
-            pbxProject.ReadFromFile(projPath);
-
-            // PBXProject.GetUnityTargetName() = "Unity-iphone"
-            targetGuid = pbxProject.TargetGuidByName(PBXProject.GetUnityTargetName());
+            InitProjectInfo(path);
 
             // 设置自动签名
             SetCodeSign();
@@ -62,7 +61,23 @@ namespace Base.Editor.Build
             // AddFile
             AddFile();
 
-            File.WriteAllText(projPath, pbxProject.WriteToString());
+            File.WriteAllText(pbxProjectPath, pbxProject.WriteToString());
+        }
+
+        static void InitProjectInfo(string path)
+        {
+            // eg: /Users/apple/exports/iOS
+            xcodeProjectExportPath = path;
+
+            // eg: /Users/apple/exports/iOS/Unity-iPhone.xcodeproj/project.pbxproj
+            pbxProjectPath = PBXProject.GetPBXProjectPath(path);
+
+            pbxProject = new PBXProject();
+            // proj.ReadFromString(File.ReadAllText(projPath));
+            pbxProject.ReadFromFile(pbxProjectPath);
+
+            // PBXProject.GetUnityTargetName() = "Unity-iphone"
+            targetGuid = pbxProject.TargetGuidByName(PBXProject.GetUnityTargetName());
         }
 
         static void SetCodeSign()
@@ -95,7 +110,12 @@ namespace Base.Editor.Build
             {
                 for(int i = 0;i < libraries.Count; ++i)
                 {
-                    string fileLibrary = pbxProject.AddFile("/usr/bin/" + libraries[i], "Frameworks/" + libraries[i], PBXSourceTree.Sdk);
+                    // 参数1 path:相对PBXSourceTree.Sdk的路径
+                    // 参数2 projectPath:相对 Xcode导出工程的路径
+                    // PBXSourceTree.Sdk eg：
+                    //                   /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/
+                    string fileLibrary = pbxProject.AddFile("/usr/lib/" + libraries[i],
+                                                            "Frameworks/" + libraries[i], PBXSourceTree.Sdk);
                     pbxProject.AddFileToBuild(targetGuid, fileLibrary);
                 }
             }
@@ -145,7 +165,21 @@ namespace Base.Editor.Build
 
         static void AddFile()
         {
-            //pbxProject.AddFile(targetGuid, "path", PBXSourceTree.Group);
+			List<Object> files = BuildProjectSetting.instance.files;
+            if(files != null)
+            {
+                for(int i = 0;i < files.Count; ++i)
+                {
+					// eg:Assets/xxx/xxxx.xxx
+					string fileRelativePath = AssetDatabase.GetAssetPath(files[i]);
+					string fileName = Path.GetFileName (fileRelativePath);
+					string sourceFilePath = Path.Combine(unityProjectPath,fileRelativePath);
+					string destFilePath = Path.Combine(xcodeProjectExportPath, fileName);
+					File.Copy(sourceFilePath, destFilePath);
+					// 不调用AddFileToBuild IPA运行时会Crash
+					pbxProject.AddFileToBuild(targetGuid, pbxProject.AddFile(destFilePath, fileName));
+                }
+            }
         }
 
         static void SetSystemCapabilities()
@@ -159,7 +193,7 @@ namespace Base.Editor.Build
                     if (type != null)
                     {
                         pbxProject.AddCapability(targetGuid,
-                            iOSCapabilityTypeHelper.GetPBXCapabilityType(capabilitys[i]), entitlementsFilePath);
+                            iOSCapabilityTypeHelper.GetPBXCapabilityType(capabilitys[i]), xcodeEntitlementsFilePath);
                     }
                 }
             }
