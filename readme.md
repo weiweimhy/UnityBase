@@ -3,9 +3,15 @@
 ## 功能点
 - Log系统
 - Xcode导出
+- Extension扩展
 
 
 ## Release notes
+### v0.0.2
+- 增加Unity查看Android日志的工具，Window -> Logcat
+- 增加大量扩展函数
+- 整理优化Log系统
+
 ### v0.0.1
 - 增加基础Log系统，Android/iOS使用不同的Log系统
   * Android Log.*

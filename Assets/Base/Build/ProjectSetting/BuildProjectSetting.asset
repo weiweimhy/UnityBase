@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 609f9b7b554bbb140ade348b8a8df243, type: 3}
   m_Name: BuildProjectSetting
   m_EditorClassIdentifier: 
-  iOSVersionName: 0.0.1
+  iOSVersionName: 0.0.2
   iOSBuildCode: 1
   iOSExportPath: /Users/mac126/workspace/out/base-temp
   signTeamID: RFHHE82KAM
@@ -31,6 +31,6 @@ MonoBehaviour:
   - key: NSLocationWhenInUseUsageDescription
     value: '"Bible Word Puzzle" would like to use your current location'
   files: []
-  androidVersionName: 0.0.1
+  androidVersionName: 0.0.2
   androidVersionCode: 1
   androidExportPath: D:\WorkSpace\Out\base-temp
