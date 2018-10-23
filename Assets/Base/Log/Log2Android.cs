@@ -1,9 +1,9 @@
-﻿
-#if UNITY_ANDROID && !UNITY_EDITOR
+﻿#if UNITY_ANDROID && !UNITY_EDITOR
 using UnityEngine;
 
-namespace Base.Log
+namespace Base.LogUtil
 {
+
     public class Log2Android
     {
         static readonly string ANDROID_HELPER_PACKAGE = "com.android.helper4unity";
@@ -49,5 +49,4 @@ namespace Base.Log
 
     }
 }
-
 #endif

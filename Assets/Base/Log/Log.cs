@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Base.Extension;
 
-namespace Base.Log
+namespace Base.LogUtil
 {
     public static class Log
     {
-
         public enum LogLevel
         {
             VERBOSE = 2,
@@ -21,24 +18,39 @@ namespace Base.Log
         public static LogLevel logLevel = LogLevel.VERBOSE;
         public static bool logUnityStack = false;
 
-        public static void V(this object self, object msg, params object[] @params)
+        private static string tagFormat = "[{0}]";
+
+        private static void GetLogInfo(object obj, object msg, out string tag, out string message, params object[] args)
         {
-            V(self.GetType().Name, msg, @params);
+            Type type = obj.GetType();
+
+            if (obj is Type)
+            {
+                tag = tagFormat.Format((object)(obj as Type).Name);
+            }
+            else if (type.IsNotTypeof<string>())
+            {
+                tag = obj.GetLogTag();
+            }
+            else
+            {
+                tag = tagFormat.Format(obj);
+            }
+            tag = tag.AddSuffix(" ");
+
+            message = msg.ToString().Format(args);
         }
 
-        public static void V(string tag, object msg, params object[] @params)
+        public static void V(object obj, object msg, params object[] args)
         {
             if (logLevel > LogLevel.VERBOSE)
             {
                 return;
             }
 
-            tag = string.Format("[{0}]", GetReadabilityString(tag));
-            string message = msg.ToString();
-            if (@params != null && @params.Length > 0)
-            {
-                message = string.Format(message, @params);
-            }
+            string tag = null;
+            string message = null;
+            GetLogInfo(obj, msg, out tag, out message, args);
 
             if (logUnityStack)
             {
@@ -56,24 +68,17 @@ namespace Base.Log
             }
         }
 
-        public static void D(this object self, object msg, params object[] @params)
-        {
-            D(self.GetType().Name, msg, @params);
-        }
-
-        public static void D(string tag, object msg, params object[] @params)
+       
+        public static void D(object obj, object msg, params object[] args)
         {
             if (logLevel > LogLevel.DEBUG)
             {
                 return;
             }
 
-            tag = string.Format("[{0}]", GetReadabilityString(tag));
-            string message = msg.ToString();
-            if (@params != null && @params.Length > 0)
-            {
-                message = string.Format(message, @params);
-            }
+            string tag = null;
+            string message = null;
+            GetLogInfo(obj, msg, out tag, out message, args);
 
             if (logUnityStack)
             {
@@ -91,24 +96,16 @@ namespace Base.Log
             }
         }
 
-        public static void I(this object self, object msg, params object[] @params)
-        {
-            I(self.GetType().Name, msg, @params);
-        }
-
-        public static void I(string tag, object msg, params object[] @params)
+        public static void I(object obj, object msg, params object[] args)
         {
             if (logLevel > LogLevel.INFO)
             {
                 return;
             }
 
-            tag = string.Format("[{0}]", GetReadabilityString(tag));
-            string message = msg.ToString();
-            if (@params != null && @params.Length > 0)
-            {
-                message = string.Format(message, @params);
-            }
+            string tag = null;
+            string message = null;
+            GetLogInfo(obj, msg, out tag, out message, args);
 
             if (logUnityStack)
             {
@@ -126,24 +123,16 @@ namespace Base.Log
             }
         }
 
-        public static void W(this object self, object msg, params object[] @params)
-        {
-            W(self.GetType().Name, msg, @params);
-        }
-
-        public static void W(string tag, object msg, params object[] @params)
+        public static void W(object obj, object msg, params object[] args)
         {
             if (logLevel > LogLevel.WARN)
             {
                 return;
             }
 
-            tag = string.Format("[{0}]", GetReadabilityString(tag));
-            string message = msg.ToString();
-            if (@params != null && @params.Length > 0)
-            {
-                message = string.Format(message, @params);
-            }
+            string tag = null;
+            string message = null;
+            GetLogInfo(obj, msg, out tag, out message, args);
 
             if (logUnityStack)
             {
@@ -161,24 +150,16 @@ namespace Base.Log
             }
         }
 
-        public static void E(this object self, object msg, params object[] @params)
-        {
-            E(self.GetType().Name, msg, @params);
-        }
-
-        public static void E(string tag, object msg, params object[] @params)
+        public static void E(object obj, object msg, params object[] args)
         {
             if (logLevel > LogLevel.ERROR)
             {
                 return;
             }
 
-            tag = string.Format("[{0}]", GetReadabilityString(tag));
-            string message = msg.ToString();
-            if (@params != null && @params.Length > 0)
-            {
-                message = string.Format(message, @params);
-            }
+            string tag = null;
+            string message = null;
+            GetLogInfo(obj, msg, out tag, out message, args);
 
             if (logUnityStack)
             {
@@ -197,20 +178,9 @@ namespace Base.Log
             }
         }
 
-        public static void E(this Exception self, object msg, params object[] @params)
+        public static void E(this Exception self, object msg, params object[] args)
         {
-            E(self.GetType().Name, msg, @params);
-        }
-
-        private static string GetReadabilityString(string str)
-        {
-            if (str == null)
-                return "@NULL";
-
-            if (str.Length == 0)
-                return "@EMPTY";
-
-            return str;
+            E(self, msg, args);
         }
     }
 }

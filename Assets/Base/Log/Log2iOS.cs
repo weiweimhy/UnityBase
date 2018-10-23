@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-public class Log2iOS {
-
+namespace Base.LogUtil
+{
+    public class Log2iOS
+    {
 #if UNITY_IOS
     [DllImport ("__Internal")]
     public static extern void v(string msg);
@@ -21,4 +20,5 @@ public class Log2iOS {
     [DllImport ("__Internal")]
     public static extern void e(string msg);
 #endif
+    }
 }

@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Base.LogUtil;
 
 namespace Base.Editor.Build
 {
@@ -39,7 +39,7 @@ namespace Base.Editor.Build
 
             if (string.IsNullOrEmpty(exportPath))
             {
-                Debug.LogWarning(TAG + "Build error:export path is empty!");
+                Log.W(TAG, "Build error:export path is empty!");
                 return false;
             }
 
@@ -67,12 +67,12 @@ namespace Base.Editor.Build
 
             if (!string.IsNullOrEmpty(report))
             {
-                Debug.LogError("build message: " + report);
+                Log.E(TAG, "build message: " + report);
                 return false;
             }
             else
             {
-                Debug.Log("Build Project: Succeed");
+                Log.I(TAG, "Build Project: Succeed");
             }
 
             return true;

@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.iOS.Xcode.Custom;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Base.Editor.Build
 {
