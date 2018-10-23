@@ -1,8 +1,7 @@
-﻿namespace Base.Extension
+﻿namespace BaseFramework
 {
 #if UNITY_EDITOR
     using UnityEditor;
-    using Base.LogUtil;
 
     public class ClassExtensionExample
     {

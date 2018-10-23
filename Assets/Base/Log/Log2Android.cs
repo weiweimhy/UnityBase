@@ -1,7 +1,7 @@
 ﻿#if UNITY_ANDROID && !UNITY_EDITOR
 using UnityEngine;
 
-namespace Base.LogUtil
+namespace BaseFramework
 {
 
     public class Log2Android

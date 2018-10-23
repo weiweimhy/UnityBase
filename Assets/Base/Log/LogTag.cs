@@ -1,7 +1,6 @@
 ﻿using System;
-using Base.Extension;
 
-namespace Base.LogUtil
+namespace BaseFramework
 {
     public static class LogTag
     {

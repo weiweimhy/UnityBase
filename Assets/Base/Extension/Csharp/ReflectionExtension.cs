@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Base.Extension
+namespace BaseFramework
 {
     public static class ReflectionExtension
     {

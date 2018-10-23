@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.iOS.Xcode.Custom;
 using UnityEngine;
 
-namespace Base.Editor.Build
+namespace BaseFramework.Build
 {
     public class BuildProjectSetting : ScriptableObject
     {

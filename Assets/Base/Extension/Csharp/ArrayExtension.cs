@@ -1,7 +1,6 @@
 ﻿using System;
-using Base.LogUtil;
 
-namespace Base.Extension
+namespace BaseFramework
 {
     public static class ArrayExtension
     {

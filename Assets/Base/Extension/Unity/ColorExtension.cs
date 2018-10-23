@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using Base.LogUtil;
 
-namespace Base.Extension
+namespace BaseFramework
 {
 #if UNITY_EDITOR
     using UnityEditor;

@@ -1,8 +1,7 @@
-﻿using Base.LogUtil;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Base.Test
+namespace BaseFramework.Test
 {
     public class LogTest : MonoBehaviour
     {

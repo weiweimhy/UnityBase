@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Base.LogUtil
+namespace BaseFramework
 {
     public class Log2iOS
     {

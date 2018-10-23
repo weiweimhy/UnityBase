@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
-using UnityEngine;
-using Base.LogUtil;
 
-namespace Base.Editor.Build
+namespace BaseFramework.Build
 {
     public class BuildUtil
     {

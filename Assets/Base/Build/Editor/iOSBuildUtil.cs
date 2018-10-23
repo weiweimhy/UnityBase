@@ -1,12 +1,11 @@
-﻿using Base.LogUtil;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode.Custom;
 using UnityEngine;
 
-namespace Base.Editor.Build
+namespace BaseFramework.Build
 {
     public class iOSBuildUtil
     {

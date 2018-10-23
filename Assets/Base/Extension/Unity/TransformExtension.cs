@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using Base.Extension;
 using System.Text;
 
-namespace Base.Extension
+namespace BaseFramework
 {
     public static class TransformExtension
     {

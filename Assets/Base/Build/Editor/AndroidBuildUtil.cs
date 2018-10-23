@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace Base.Editor.Build
+namespace BaseFramework.Build
 {
     public class AndroidBuildUtil
     {

@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using Base.Extension;
-using Base.LogUtil;
 
-namespace Base.Test
+namespace BaseFramework.Test
 {
     public class RectTransformTest : MonoBehaviour
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Base.LogUtil;
 
-namespace Base.Extension
+namespace BaseFramework
 {
     public static class IEnumerableExtension
     {

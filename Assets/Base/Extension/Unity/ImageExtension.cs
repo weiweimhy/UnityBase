@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Base.Extension
+namespace BaseFramework
 {
     public static class ImageExtension
     {

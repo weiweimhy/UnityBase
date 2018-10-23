@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Base.Attribute
+namespace BaseFramework
 {
     public class ReadOnlyAttribute : PropertyAttribute
     {

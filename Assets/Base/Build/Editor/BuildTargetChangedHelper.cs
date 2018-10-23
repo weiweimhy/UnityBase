@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEditor.Build;
 
-namespace Base.Editor.Build
+namespace BaseFramework.Build
 {
     public class BuildTargetChangedHelper : IActiveBuildTargetChanged
     {

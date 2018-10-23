@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Base.Extension
+namespace BaseFramework
 {
     public static class DelegateExtension
     {
