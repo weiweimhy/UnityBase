@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Base.LogUtil;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -10,8 +10,6 @@ namespace Base.Editor.Build
 {
     public class iOSBuildUtil
     {
-        private static string TAG = "[iOSBuildUtil] ";
-
         #region Build
         [MenuItem("Build/Export iOS XCode Project", false, 2)]
         public static void ExportXCodeProject()

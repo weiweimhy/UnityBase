@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using Base.LogUtil;
+
+namespace Base.Extension
+{
+    public static class ListExtension
+    {
+        public static bool IsEmptyOrNull<T>(this List<T> self)
+        {
+            return self.IsNull() || self.Count == 0;
+        }
+
+        public static bool IsNotEmptyAndNull<T>(this List<T> self)
+        {
+            return !self.IsEmptyOrNull();
+        }
+
+        public static bool IsNullOrEmpty<T>(this List<T> self)
+        {
+            return self.IsNull() || self.Count == 0;
+        }
+
+        public static bool IsNotNullAndEmpty<T>(this List<T> self)
+        {
+            return !self.IsNullOrEmpty();
+        }
+
+        public static List<T> ForEachReverse<T>(this List<T> self, Action<T> action)
+        {
+            if (self.IsNull())
+            {
+                Log.W(typeof(ListExtension), "List is null");
+            }
+            else
+            {
+                for (int i = self.Count - 1; i >= 0; --i)
+                    action(self[i]);
+            }
+
+            return self;
+        }
+
+        public static List<T> ForEachReverse<T>(this List<T> self, Action<int, T> action)
+        {
+            if (self.IsNull())
+            {
+                Log.W(typeof(ListExtension), "List is null");
+            }
+            else
+            {
+                for (int i = self.Count - 1; i >= 0; --i)
+                    action(i, self[i]);
+            }
+
+            return self;
+        }
+
+        public static T GetRandomItem<T>(this List<T> self)
+        {
+            if (self.IsNull())
+            {
+                Log.W(typeof(ListExtension), "List is null");
+                return default(T);
+            }
+
+            return self[UnityEngine.Random.Range(0, self.Count)];
+        }
+    }
+}
