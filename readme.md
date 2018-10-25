@@ -4,9 +4,13 @@
 - Log系统
 - Xcode导出
 - Extension扩展
-
+- 单例和对象池
 
 ## Release notes
+### v0.0.3
+- 增加单例模块
+- 增加对象池模块
+
 ### v0.0.2
 - 增加Unity查看Android日志的工具，Window -> Logcat
 - 增加大量扩展函数

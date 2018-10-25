@@ -40,7 +40,7 @@ namespace BaseFramework.Build
         public string androidExportPath;
 
         #region BuildProjectSetting
-        private static readonly string BUILD_PROJECT_SETTING_PATH = "Assets/Base/Build/ProjectSetting";
+        private static readonly string BUILD_PROJECT_SETTING_PATH = "Assets/_Base/Build/ProjectSetting";
         private static readonly string BUILD_PROJECT_SETTING_NAME = "BuildProjectSetting";
 
         private static readonly string BUILD_PROJECT_SETTING_FILE_PATH = Path.Combine(BUILD_PROJECT_SETTING_PATH, BUILD_PROJECT_SETTING_NAME + ".asset");
