@@ -6,9 +6,9 @@ namespace BaseFramework
     {
         #region Func Extension
 
-        public static T InvokeGracefully<T>(this Func<T> selfFunc)
+        public static T InvokeGracefully<T>(this Func<T> self)
         {
-            return null != selfFunc ? selfFunc() : default(T);
+            return null != self ? self() : default(T);
         }
 
         #endregion
@@ -18,13 +18,13 @@ namespace BaseFramework
         /// <summary>
         /// Call action
         /// </summary>
-        /// <param name="selfAction"></param>
+        /// <param name="self"></param>
         /// <returns> call succeed</returns>
-        public static bool InvokeGracefully(this System.Action selfAction)
+        public static bool InvokeGracefully(this Action self)
         {
-            if (null != selfAction)
+            if (null != self)
             {
-                selfAction();
+                self();
                 return true;
             }
             return false;
@@ -33,14 +33,14 @@ namespace BaseFramework
         /// <summary>
         /// Call action
         /// </summary>
-        /// <param name="selfAction"></param>
+        /// <param name="self"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static bool InvokeGracefully<T>(this Action<T> selfAction, T t)
+        public static bool InvokeGracefully<T>(this Action<T> self, T t)
         {
-            if (null != selfAction)
+            if (null != self)
             {
-                selfAction(t);
+                self(t);
                 return true;
             }
             return false;
@@ -49,13 +49,13 @@ namespace BaseFramework
         /// <summary>
         /// Call action
         /// </summary>
-        /// <param name="selfAction"></param>
+        /// <param name="self"></param>
         /// <returns> call succeed</returns>
-        public static bool InvokeGracefully<T, K>(this Action<T, K> selfAction, T t, K k)
+        public static bool InvokeGracefully<T, K>(this Action<T, K> self, T t, K k)
         {
-            if (null != selfAction)
+            if (null != self)
             {
-                selfAction(t, k);
+                self(t, k);
                 return true;
             }
             return false;
@@ -64,13 +64,13 @@ namespace BaseFramework
         /// <summary>
         /// Call delegate
         /// </summary>
-        /// <param name="selfAction"></param>
+        /// <param name="self"></param>
         /// <returns> call suceed </returns>
-        public static bool InvokeGracefully(this Delegate selfAction, params object[] args)
+        public static bool InvokeGracefully(this Delegate self, params object[] args)
         {
-            if (null != selfAction)
+            if (null != self)
             {
-                selfAction.DynamicInvoke(args);
+                self.DynamicInvoke(args);
                 return true;
             }
             return false;
