@@ -38,8 +38,8 @@ namespace BaseFramework.Test
                 .Delay(10)
                 .OnStart(() => { Log.I(this, "threadTask [Onstart], {0}", System.DateTime.Now); })
                 .Do(() => { Log.I(this, "threadTask [Do], {0}", System.DateTime.Now); }) // Do将在其他线程运行, 使用Time.realtimeSinceStartup会Crash
-                .OnFinish(() => { Log.I(this, "threadTask [onfinish] {0}", System.DateTime.Now); })
-                .OnCancle(() => { Log.I(this, "threadTask [oncancle] {0}", System.DateTime.Now); })
+                .OnFinish(() => { Log.I(this, "threadTask [OnFinish] {0}", System.DateTime.Now); })
+                .OnCancle(() => { Log.I(this, "threadTask [OnCancle] {0}", System.DateTime.Now); })
                 .Execute();
 
             // threadTask.Cancle();
