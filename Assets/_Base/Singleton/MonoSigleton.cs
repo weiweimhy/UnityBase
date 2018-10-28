@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.VersionControl;
+using UnityEngine;
 
 namespace BaseFramework
 {
@@ -22,6 +23,9 @@ namespace BaseFramework
                     instance.OnSingletonInit();
                 }
             }
+            /// <summary>
+            /// 不使用readonly是为了销毁
+            /// </summary>
             internal static T instance;
         }
 
@@ -54,6 +58,7 @@ namespace BaseFramework
 
         protected virtual void OnDestroy()
         {
+            OnSingletonDestroy();
             SingletonHandler.instance = null;
         }
 
@@ -62,6 +67,12 @@ namespace BaseFramework
         /// </summary>
         public virtual void OnSingletonInit()
         {
+            DontDestroyOnLoad(gameObject);
+        }
+
+        public virtual void OnSingletonDestroy()
+        {
+
         }
     }
 }

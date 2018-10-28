@@ -12,6 +12,9 @@
                 instance = new T();
                 instance.OnSingletonInit();
             }
+            /// <summary>
+            /// 不使用readonly是为了销毁
+            /// </summary>
             internal static T instance;
         }
 
@@ -25,6 +28,7 @@
 
         public virtual void Dispose()
         {
+            OnSingletonDestroy();
             SingletonHandler.instance = null;
         }
 
@@ -32,5 +36,9 @@
         {
         }
 
+        public virtual void OnSingletonDestroy()
+        {
+            
+        }
     }
 }

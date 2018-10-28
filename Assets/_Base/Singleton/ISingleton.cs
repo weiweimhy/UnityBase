@@ -1,7 +1,11 @@
-﻿namespace BaseFramework
+﻿using System;
+
+namespace BaseFramework
 {
-    public interface ISingleton
+    public interface ISingleton: IDisposable
     {
         void OnSingletonInit();
+
+        void OnSingletonDestroy();
     }
 }
