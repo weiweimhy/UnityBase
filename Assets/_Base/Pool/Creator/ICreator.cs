@@ -1,6 +1,6 @@
 ﻿namespace BaseFramework
 {
-    public interface ICreater<T>
+    public interface ICreator<T>
     {
         T Create();
     }

@@ -6,8 +6,21 @@ namespace BaseFramework
     public abstract class Pool<T> : IPool<T> where T : IRecycleable
     {
         protected Stack<T> cacheStack;
-        protected ICreater<T> creater;
+        protected ICreator<T> creater;
         protected int maxPoolSize;
+
+        protected bool finishInit;
+
+        public Pool<T> Init(int initPoolSize = -1, int maxPoolSize = -1)
+        {
+            if (!finishInit)
+            {
+                creater = new SimpleCreator<T>();
+                InitPoolSize(initPoolSize, maxPoolSize);
+                finishInit = true;
+            }
+            return this;
+        }
 
         protected void InitPoolSize(int initPoolSize, int maxPoolSize)
         {
@@ -24,16 +37,19 @@ namespace BaseFramework
 
         public T Create()
         {
+            if (!finishInit)
+                Init();
+
             if(cacheStack.Count > 0)
             {
                 T reuseItem = cacheStack.Pop();
-                reuseItem.IsRecycled = false;
+                reuseItem.isRecycled = false;
                 reuseItem.OnReset();
                 return reuseItem;
             }
 
             T newItem = creater.Create();
-            newItem.IsRecycled = false;
+            newItem.isRecycled = false;
             newItem.OnCreate();
             newItem.OnReset();
             return newItem;
@@ -41,16 +57,16 @@ namespace BaseFramework
 
         public bool Recycle(T item)
         {
-            if (item == null || item.IsRecycled)
+            if (item == null || item.isRecycled)
                 return false;
 
-            if (cacheStack.Count >= maxPoolSize)
+            if (maxPoolSize > 0 && cacheStack.Count >= maxPoolSize)
             {
                 item.OnRecycle();
                 return false;
             }
 
-            item.IsRecycled = true;
+            item.isRecycled = true;
             item.OnRecycle();
             cacheStack.Push(item);
 

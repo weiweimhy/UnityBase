@@ -2,7 +2,7 @@
 {
     public interface IRecycleable
     {
-        bool IsRecycled { get; set; }
+        bool isRecycled { get; set; }
 
         /// <summary>
         /// Call only when created 
