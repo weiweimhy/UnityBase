@@ -8,21 +8,10 @@ namespace BaseFramework
         protected Thread thread;
         protected float delayTime;
 
-        protected override IExecutor<RunableTask> InitExecutor()
-        {
-            // executor not use
-            return null;
-        }
-
         public RunableTask Delay(float delay)
         {
             delayTime = delay;
             return this;
-        }
-
-        public override RunableTask Execute()
-        {
-            return ExecuteInternal();
         }
 
         internal override RunableTask ExecuteInternal()

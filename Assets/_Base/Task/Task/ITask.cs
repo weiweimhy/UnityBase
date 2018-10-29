@@ -6,7 +6,7 @@ namespace BaseFramework
     {
         TaskStatus status { get; set; }
 
-        IExecutor<T> executor { get; }
+        T Execute();
 
         T Cancle();
     }

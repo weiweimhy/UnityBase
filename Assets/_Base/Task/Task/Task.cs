@@ -13,21 +13,6 @@ namespace BaseFramework
 
         public TaskStatus status { get; set; }
 
-        private IExecutor<T> _executor;
-        public IExecutor<T> executor
-        {
-            get
-            {
-                if (_executor == null)
-                {
-                    _executor = InitExecutor();
-                }
-                return _executor;
-            }
-        }
-
-        protected abstract IExecutor<T> InitExecutor();
-
         public T OnStart(params Action[] actions)
         {
             actions.ForEach(action => onStart += action);
@@ -60,8 +45,7 @@ namespace BaseFramework
 
         public virtual T Execute()
         {
-            executor.Execute(this as T);
-            return this as T;
+            return ExecuteInternal();
         }
 
         internal abstract T ExecuteInternal();

@@ -10,11 +10,6 @@ namespace BaseFramework
         protected IEnumerator enumerator;
         protected Coroutine coroutine;
 
-        protected override IExecutor<CoroutineTask> InitExecutor()
-        {
-            return MonoExecutor.instance;
-        }
-
         public CoroutineTask MonoBehaviour(MonoBehaviour monoBehaviour)
         {
             behaviour = monoBehaviour;
@@ -54,6 +49,11 @@ namespace BaseFramework
 
             Do();
             Finish();
+        }
+
+        public override CoroutineTask Execute()
+        {
+            return MonoExecutor.instance.Execute(this);
         }
 
         internal override CoroutineTask ExecuteInternal()

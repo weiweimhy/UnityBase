@@ -4,18 +4,6 @@ namespace BaseFramework
 {
     public class SimpleTask : Task<SimpleTask>
     {
-
-        protected override IExecutor<SimpleTask> InitExecutor()
-        {
-            // executor not use
-            return null;
-        }
-
-        public override SimpleTask Execute()
-        {
-            return ExecuteInternal();
-        }
-
         internal override SimpleTask ExecuteInternal()
         {
             Start();
