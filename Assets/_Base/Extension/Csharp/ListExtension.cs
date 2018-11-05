@@ -55,6 +55,12 @@ namespace BaseFramework
             return self;
         }
 
+        /// <summary>
+        /// return default(T), if list is empty or null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static T GetRandomItem<T>(this List<T> self)
         {
             if (self.IsNull())
@@ -62,8 +68,49 @@ namespace BaseFramework
                 Log.W(typeof(ListExtension), "List is null");
                 return default(T);
             }
+            if (self.Count == 0)
+            {
+                Log.W(typeof(ListExtension), "List is empty");
+                return default(T);
+            }
 
             return self[UnityEngine.Random.Range(0, self.Count)];
+        }
+
+        public static T RemoveFirst<T>(this List<T> self)
+        {
+            if (self.IsNull())
+            {
+                Log.W(typeof(ListExtension), "List is null");
+                return default(T);
+            }
+            if (self.Count == 0)
+            {
+                Log.W(typeof(ListExtension), "List is empty");
+                return default(T);
+            }
+
+            T item = self[0];
+            self.RemoveAt(0);
+            return item;
+        }
+
+        public static T RemoveLast<T>(this List<T> self)
+        {
+            if (self.IsNull())
+            {
+                Log.W(typeof(ListExtension), "List is null");
+                return default(T);
+            }
+            if (self.Count == 0)
+            {
+                Log.W(typeof(ListExtension), "List is empty");
+                return default(T);
+            }
+
+            T item = self[self.Count - 1];
+            self.RemoveAt(self.Count - 1);
+            return item;
         }
     }
 }

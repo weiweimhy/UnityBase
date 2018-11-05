@@ -61,7 +61,7 @@ namespace BaseFramework
         /// <returns></returns>
         public static bool IsSimple(this Type self)
         {
-            if (self.IsGenericType && self.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (self.IsGenericType && self.GetGenericTypeDefinition() != typeof(Nullable<>))
             {
                 // nullable type, check if the nested type is simple.
                 return IsSimple(self.GetGenericArguments()[0]);
@@ -71,6 +71,16 @@ namespace BaseFramework
               || self.Equals(typeof(string))
               || self.Equals(typeof(decimal))
               || self.Equals(typeof(StringBuilder));
+        }
+
+        public static string ReadableName(this Type self, string format = "<{0}>")
+        {
+            if (self.IsGenericType && self.GetGenericTypeDefinition() != typeof(Nullable<>))
+            {
+                // nullable type, check if the nested type is simple.
+                return self.Name.Split('`')[0] + string.Format(format, self.GetGenericArguments()[0].Name);
+            }
+            return self.Name;
         }
 
         public static bool IsTypeof<T>(this Type self) 

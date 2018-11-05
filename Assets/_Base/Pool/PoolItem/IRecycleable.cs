@@ -1,6 +1,8 @@
-﻿namespace BaseFramework
+﻿using System;
+
+namespace BaseFramework
 {
-    public interface IRecycleable
+    public interface IRecycleable : IDisposable
     {
         bool isRecycled { get; set; }
 

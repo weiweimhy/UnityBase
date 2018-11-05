@@ -51,6 +51,12 @@ namespace BaseFramework
             Finish();
         }
 
+        public bool ShouldRecycle()
+        {
+            return behaviour == null
+                || (behaviour.gameObject.activeInHierarchy == false);
+        }
+
         public override CoroutineTask Execute()
         {
             return MonoExecutor.instance.Execute(this);

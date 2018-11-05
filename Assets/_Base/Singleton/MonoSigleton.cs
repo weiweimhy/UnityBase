@@ -1,4 +1,4 @@
-﻿using UnityEditor.VersionControl;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace BaseFramework
@@ -13,20 +13,40 @@ namespace BaseFramework
             /// </summary>
             static SingletonHandler()
             {
-                instance = FindObjectOfType<T>() as T;
-                if (instance == null)
+                Init();
+            }
+            internal static void Init()
+            {
+                _instance = FindObjectOfType<T>() as T;
+                if (_instance == null)
                 {
-                    new GameObject().Name(typeof(T).Name + "_Singleton").AddComponent<T>();
+                    _instance = new GameObject().Name(typeof(T).ReadableName() + "_Singleton").AddComponent<T>();
                 }
                 else
                 {
-                    instance.OnSingletonInit();
+                    _instance.OnSingletonInit();
                 }
             }
+
             /// <summary>
             /// 不使用readonly是为了销毁
             /// </summary>
-            internal static T instance;
+            private static T _instance;
+            internal static T instance
+            {
+                get
+                {
+                    if (_instance == null)
+                    {
+                        Init();
+                    }
+                    return _instance;
+                }
+                set
+                {
+                    _instance = value;
+                }
+            }
         }
 
         public static T instance

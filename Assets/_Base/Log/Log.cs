@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BaseFramework
 {
@@ -25,16 +25,13 @@ namespace BaseFramework
 
             if (obj is Type)
             {
-                tag = tagFormat.Format((object)(obj as Type).Name);
-            }
-            else if (type.IsNotTypeof<string>())
-            {
-                tag = obj.GetLogTag();
+                tag = tagFormat.Format((object)(obj as Type).ReadableName());
             }
             else
             {
-                tag = tagFormat.Format(obj);
+                tag = obj.GetLogTag();
             }
+         
             tag = tag.AddSuffix(" ");
 
             message = msg.ToString().Format(args);

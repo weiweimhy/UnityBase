@@ -208,12 +208,12 @@ namespace BaseFramework
 
         #region find
 
-        public static Transform FindChild(this Transform self, System.Predicate<Transform> predicate)
+        public static Transform FindChild(this Transform self, System.Predicate<Transform> predicate = null)
         {
             for (int i = 0; i < self.childCount; ++i)
             {
                 Transform child = self.GetChild(i);
-                if (predicate(child))
+                if (predicate == null || predicate(child))
                 {
                     return child;
                 }
@@ -221,12 +221,12 @@ namespace BaseFramework
             return null;
         }
 
-        public static T FindChild<T>(this Transform self, System.Predicate<T> predicate) where T : Component
+        public static T FindChild<T>(this Transform self, System.Predicate<T> predicate = null) where T : Component
         {
             for (int i = 0; i < self.childCount; ++i)
             {
                 T child = self.GetChild(i).GetComponent<T>();
-                if (predicate(child))
+                if (predicate == null || predicate(child))
                 {
                     return child;
                 }
@@ -273,6 +273,12 @@ namespace BaseFramework
                 temp != null;
                 sb.Insert(0, temp.name + "/"), temp = temp.parent);
             return sb.ToString();
+        }
+
+        public static Transform Parent(this Transform self, Transform parent, bool worldPositionStays = true)
+        {
+            self.SetParent(parent, worldPositionStays);
+            return self;
         }
     }
 }

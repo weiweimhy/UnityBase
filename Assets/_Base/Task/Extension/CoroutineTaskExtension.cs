@@ -44,7 +44,7 @@ namespace BaseFramework
                                  float seconds,
                                  params Action[] argActions)
         {
-            ExcuteTask(self, seconds, argActions);
+            ExcuteTask(self, seconds, argActions).Name(self.name + "-delay-" + seconds);
         }
     }
 }

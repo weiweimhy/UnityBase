@@ -4,6 +4,8 @@ namespace BaseFramework
 {
     public abstract class Task<T> : SimpleRecycleItem, ITask<T> where T : class
     {
+        public string name;
+
         protected Action onStart = null;
         protected Action doAction = null;
         protected Action onFinish = null;
@@ -11,7 +13,14 @@ namespace BaseFramework
 
         protected bool autoRecycle = true;
 
-        public TaskStatus status { get; set; }
+        protected TaskStatus status { get; set; }
+
+        public T Name(string name)
+        {
+            this.name = name;
+
+            return this as T;
+        }
 
         public T OnStart(params Action[] actions)
         {
@@ -95,8 +104,6 @@ namespace BaseFramework
                     Dispose();
             }
         }
-
-        public abstract void Dispose();
 
         #region IRecycleable
         public override void OnReset()

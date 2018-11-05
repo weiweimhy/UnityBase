@@ -1,23 +1,30 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace BaseFramework
 {
-    public abstract class Pool<T> : IPool<T> where T : IRecycleable
+    public abstract class Pool<T> : IPool<T> where T : class, IRecycleable
     {
         protected Stack<T> cacheStack;
-        protected ICreator<T> creater;
+        protected ICreator<T> creator;
         protected int maxPoolSize;
-
-        protected bool finishInit;
 
         public Pool<T> Init(int initPoolSize = -1, int maxPoolSize = -1)
         {
-            if (!finishInit)
+            if (creator == null)
             {
-                creater = new SimpleCreator<T>();
+                creator = new SimpleCreator<T>();
                 InitPoolSize(initPoolSize, maxPoolSize);
-                finishInit = true;
+            }
+            return this;
+        }
+
+        public Pool<T> Init(Func<T> createFunc, int initPoolSize = -1, int maxPoolSize = -1)
+        {
+            if (creator == null)
+            {
+                creator = new SimpleCreator<T>(createFunc);
+                InitPoolSize(initPoolSize, maxPoolSize);
             }
             return this;
         }
@@ -37,28 +44,45 @@ namespace BaseFramework
 
         public T Create()
         {
-            if (!finishInit)
+            if (creator == null)
                 Init();
 
-            if(cacheStack.Count > 0)
+            T result = CreateFromCache();
+            if (!CheckUseful(result))
             {
-                T reuseItem = cacheStack.Pop();
-                reuseItem.isRecycled = false;
-                reuseItem.OnReset();
-                return reuseItem;
+                result = creator.Create();
+                result.OnCreate();
             }
+            result.isRecycled = false;
+            result.OnReset();
 
-            T newItem = creater.Create();
-            newItem.isRecycled = false;
-            newItem.OnCreate();
-            newItem.OnReset();
-            return newItem;
+            return result;
+        }
+
+        private T CreateFromCache()
+        {
+            T result = null;
+            while (cacheStack.Count > 0)
+            {
+                result = cacheStack.Pop();
+                if (CheckUseful(result))
+                    break;
+                Log.W(this, "{0} pool hava unuseful data!", typeof(T).Name);
+            }
+            return result;
+        }
+
+        protected virtual bool CheckUseful(T t)
+        {
+            return t as T != null;
         }
 
         public bool Recycle(T item)
         {
             if (item == null || item.isRecycled)
                 return false;
+
+            OnItemRecycle(item);
 
             if (maxPoolSize > 0 && cacheStack.Count >= maxPoolSize)
             {
@@ -71,6 +95,19 @@ namespace BaseFramework
             cacheStack.Push(item);
 
             return true;
+        }
+
+        protected virtual void OnItemRecycle(T item)
+        {
+
+        }
+
+        public virtual void Dispose()
+        {
+            cacheStack.ForEach(it => it.Dispose());
+
+            cacheStack = null;
+            creator = null;
         }
     }
 }

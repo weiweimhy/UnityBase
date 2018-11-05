@@ -1,4 +1,4 @@
-﻿namespace BaseFramework
+namespace BaseFramework
 {
     public class Singleton<T> : ISingleton where T : Singleton<T>, new()
     {
@@ -9,13 +9,34 @@
             /// 就会确保在被引用的时候才会实例化，而不是程序启动的时候实例化
             /// </summary>
             static SingletonHandler() {
-                instance = new T();
-                instance.OnSingletonInit();
+                Init();
             }
+
+            internal static void Init()
+            {
+                _instance = new T();
+                _instance.OnSingletonInit();
+            }
+
             /// <summary>
             /// 不使用readonly是为了销毁
             /// </summary>
-            internal static T instance;
+            private static T _instance;
+            internal static T instance
+            {
+                get
+                {
+                    if (_instance == null)
+                    {
+                        Init();
+                    }
+                    return _instance;
+                }
+                set
+                {
+                    _instance = value;
+                }
+            }
         }
 
         public static T instance

@@ -5,41 +5,31 @@ namespace BaseFramework
 {
     public class MonoExecutor : MonoSingleton<MonoExecutor>, IExecutor<CoroutineTask>
     {
-        private Dictionary<string, List<CoroutineTask>> taskDic;
+        private List<CoroutineTask> tasks;
 
         public override void OnSingletonInit()
         {
             base.OnSingletonInit();
-            taskDic = new Dictionary<string, List<CoroutineTask>>();
+            tasks = new List<CoroutineTask>();
 
+            // 注册场景切换回调
             SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         public override void OnSingletonDestroy()
         {
             base.OnSingletonDestroy();
-            taskDic = null;
+            tasks.ForEach(task => {
+                task.Dispose();
+            });
+            tasks = null;
 
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
 
         public CoroutineTask Execute(CoroutineTask task)
         {
-            string sceneName = SceneManager.GetActiveScene().name;
-            if (taskDic.ContainsKey(sceneName))
-            {
-                if (taskDic[sceneName] == null)
-                {
-                    taskDic[sceneName] = new List<CoroutineTask>();
-                }
-                taskDic[sceneName].Add(task);
-            }
-            else
-            {
-                List<CoroutineTask> tasks = new List<CoroutineTask>();
-                tasks.Add(task);
-                taskDic.Add(sceneName, tasks);
-            }
+            tasks.Add(task);
 
             task.ExecuteInternal();
             return task;
@@ -47,13 +37,44 @@ namespace BaseFramework
 
         private void OnSceneUnloaded(Scene scene)
         {
-            string sceneName = scene.name;
-            if (taskDic.ContainsKey(sceneName))
+            CheckAndRecycleTask();
+        }
+
+        // 检查Task是否可用，不可用就回收
+        public void CheckAndRecycleTask()
+        {
+            List<CoroutineTask> recycleTasks = new List<CoroutineTask>();
+            tasks.ForEach(it => {
+                if(CheckTask(it))
+                {
+                    recycleTasks.Add(it);
+                }
+            });
+            recycleTasks.ForEach(it => RecycleTask(it));
+
+            recycleTasks.Clear();
+            recycleTasks = null;
+        }
+
+        public void CheckAndRecycleTask(CoroutineTask task)
+        {
+            if (CheckTask(task))
             {
-                taskDic[sceneName].ForEach(task => {
-                    task.Dispose();
-                });
+                RecycleTask(task);
             }
+        }
+
+        private bool CheckTask(CoroutineTask task)
+        {
+            return task != null && task.ShouldRecycle() && !task.isRecycled;
+        }
+
+        private void RecycleTask(CoroutineTask task)
+        {
+            Log.I(this, "Recycle coroutine task [{0}]", task.name);
+            task.Dispose();
+
+            tasks.Remove(task);
         }
     }
 }

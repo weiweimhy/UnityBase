@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BaseFramework
 {
@@ -20,7 +20,7 @@ namespace BaseFramework
             {
                 return GetLogTag(obj.ToString(), format, args);
             }
-            return GetLogTag(type.Name, format, args);
+            return GetLogTag(type.ReadableName(), format, args);
         }
     }
 }

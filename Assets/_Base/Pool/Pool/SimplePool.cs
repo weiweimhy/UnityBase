@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 namespace BaseFramework
 {
-    public class SimplePool<T> : Pool<T>, ISingleton where T : IRecycleable
+    public class SimplePool<T> : Pool<T>, ISingleton where T : class, IRecycleable
     {
         #region singletion
         public static class SingletonHandler
@@ -13,11 +13,30 @@ namespace BaseFramework
             /// </summary>
             static SingletonHandler()
             {
-                string a = typeof(T).Name;
-                instance = new SimplePool<T>();
-                instance.OnSingletonInit();
+                Init();
             }
-            internal static SimplePool<T> instance;
+            internal static void Init()
+            {
+                _instance = new SimplePool<T>();
+                _instance.OnSingletonInit();
+            }
+
+            private static SimplePool<T> _instance;
+            internal static SimplePool<T> instance
+            {
+                get
+                {
+                    if (_instance == null)
+                    {
+                        Init();
+                    }
+                    return _instance;
+                }
+                set
+                {
+                    _instance = value;
+                }
+            }
         }
 
         public static SimplePool<T> instance
@@ -38,21 +57,11 @@ namespace BaseFramework
             SingletonHandler.instance = null;
         }
 
-        public virtual void Dispose()
+        public override void Dispose()
         {
+            base.Dispose();
             OnSingletonDestroy();
         }
         #endregion
-
-        public SimplePool<T> Init(Func<T> createFunc, int initPoolSize = -1, int maxPoolSize = -1)
-        {
-            if (!finishInit)
-            {
-                creater = new SimpleCreator<T>(createFunc);
-                InitPoolSize(initPoolSize, maxPoolSize);
-                finishInit = true;
-            }
-            return this;
-        }
     }
 }

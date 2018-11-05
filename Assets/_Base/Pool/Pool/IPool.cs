@@ -1,6 +1,9 @@
-﻿namespace BaseFramework
+﻿using System;
+
+namespace BaseFramework
 {
-    public interface IPool<T>
+
+    public interface IPool<T> : IDisposable where T : class
     {
         T Create();
 

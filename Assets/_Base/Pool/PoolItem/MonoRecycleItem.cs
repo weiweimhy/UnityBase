@@ -1,10 +1,18 @@
-﻿namespace BaseFramework
+using UnityEngine;
+
+namespace BaseFramework
 {
-    public class SimpleRecycleItem : IRecycleable
+    public abstract class MonoRecycleItem: MonoBehaviour, IRecycleable
     {
+
         public bool isRecycled { get; set; }
 
         public virtual void OnCreate()
+        {
+
+        }
+
+        public virtual void OnReset()
         {
         }
 
@@ -12,13 +20,6 @@
         {
         }
 
-        public virtual void OnReset()
-        {
-        }
-
-        public virtual void Dispose()
-        {
-        }
-
+        public abstract void Dispose();
     }
 }
