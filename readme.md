@@ -8,6 +8,10 @@
 - Task模块
 
 ## Release notes
+### v0.05
+- 新增MonoPool
+- 重构部分Task模块
+
 ### v0.0.4
 - 优化单例模块
 - 优化对象池模块
