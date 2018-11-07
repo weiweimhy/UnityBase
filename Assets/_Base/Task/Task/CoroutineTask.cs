@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -59,7 +59,7 @@ namespace BaseFramework
 
         public override CoroutineTask Execute()
         {
-            return MonoExecutor.instance.Execute(this);
+            return CoroutineTaskExecutor.instance.Execute(this);
         }
 
         internal override CoroutineTask ExecuteInternal()

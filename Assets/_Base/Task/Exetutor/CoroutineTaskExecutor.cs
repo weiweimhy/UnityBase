@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 namespace BaseFramework
 {
-    public class MonoExecutor : MonoSingleton<MonoExecutor>, IExecutor<CoroutineTask>
+    public class CoroutineTaskExecutor : Singleton<CoroutineTaskExecutor>, IExecutor<CoroutineTask>
     {
         private List<CoroutineTask> tasks;
 

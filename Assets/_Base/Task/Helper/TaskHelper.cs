@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace BaseFramework
 {
@@ -15,12 +15,12 @@ namespace BaseFramework
         /// </summary>
         public static void CheckAndRecycle()
         {
-            MonoExecutor.instance.CheckAndRecycleTask();
+            CoroutineTaskExecutor.instance.CheckAndRecycleTask();
         }
 
         public static void CheckAndRecycle(CoroutineTask task)
         {
-            MonoExecutor.instance.CheckAndRecycleTask(task);
+            CoroutineTaskExecutor.instance.CheckAndRecycleTask(task);
         }
     }
 }
