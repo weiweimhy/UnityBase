@@ -21,13 +21,16 @@ namespace BaseFramework
             return SimplePool<T>.instance.Init(createFunc, initPoolSize, maxPoolSize).Create();
         }
 
-        public static T Create<T>(T prefab,
+        public static T Create<T>(T prefab, MonoPoolType poolType = MonoPoolType.Lasting,
                                   int initPoolSize = DEFAULT_INIT_POOL_SIZE,
                                   int maxPoolSize = DEFAULT_MAX_POOL_SIZE) where T : MonoBehaviour, IRecycleable
         {
-            T item = MonoPool<T>.instance.Init(() => {
-                return GameObject.Instantiate(prefab);
-            }, DEFAULT_INIT_POOL_SIZE, DEFAULT_MAX_POOL_SIZE).Create();
+            T item = MonoPool<T>.instance
+                .SetType(poolType)
+                .Init(() => { return GameObject.Instantiate(prefab);},
+                      DEFAULT_INIT_POOL_SIZE,
+                      DEFAULT_MAX_POOL_SIZE)
+                .Create();
             return item;
         }
 
@@ -38,18 +41,6 @@ namespace BaseFramework
                 return MonoPool<T>.instance.Recycle(self);
             }
             return SimplePool<T>.instance.Recycle(self);
-        }
-
-        public static void Dispose<T>() where T : class, IRecycleable
-        {
-            if (typeof(MonoBehaviour).IsAssignableFrom(typeof(T)))
-            {
-                MonoPool<T>.instance.Dispose();
-            }
-            else
-            {
-                SimplePool<T>.instance.Dispose();
-            }
         }
     }
 }

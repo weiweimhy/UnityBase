@@ -15,7 +15,6 @@ namespace BaseFramework.Test
         // Use this for initialization
         void Start()
         {
-
         }
 
         // Update is called once per frame
@@ -26,12 +25,12 @@ namespace BaseFramework.Test
 
         public void Create()
         {
-            RecycleTestItem item = PoolHelper.Create(prefab);
+            RecycleTestItem item = PoolHelper.Create(prefab, MonoPoolType.AutoDispose);
             item.transform
                 .Parent(itemParent, false)
                 .SetAsLastSibling();
-            items.Add(item);
             item.index = items.Count;
+            items.Add(item);
         }
 
         public void RecycleLast()
@@ -47,11 +46,6 @@ namespace BaseFramework.Test
         {
             items.ForEach(it => it.Dispose());
             items.Clear();
-        }
-
-        private void OnDestroy()
-        {
-            PoolHelper.Dispose<RecycleTestItem>();
         }
     }
 }

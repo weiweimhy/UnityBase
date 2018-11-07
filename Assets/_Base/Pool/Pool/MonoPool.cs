@@ -1,9 +1,34 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace BaseFramework
 {
+    public class MonoPoolManager : MonoSingleton<MonoPoolManager>
+    {
+
+        public void Register(UnityAction<Scene> action)
+        {
+            SceneManager.sceneUnloaded += action;
+        }
+
+        public void UnRegister(UnityAction<Scene> action)
+        {
+            SceneManager.sceneUnloaded -= action;
+        }
+    }
+
+    public enum MonoPoolType
+    {
+        Lasting, // 持久的，在场景切换不销毁，需要手动销毁
+        AutoDispose //场景销毁的时候自动销毁
+    }
+
     public class MonoPool<T> : Pool<T>, ISingleton where T : class, IRecycleable
     {
+        private GameObject poolRootObj;
+        private MonoPoolType poolType = MonoPoolType.Lasting;
+
         #region singletion
         public static class SingletonHandler
         {
@@ -15,7 +40,8 @@ namespace BaseFramework
             {
                 Init();
             }
-            internal static void Init() {
+            internal static void Init()
+            {
                 _instance = new MonoPool<T>();
                 _instance.OnSingletonInit();
             }
@@ -25,7 +51,7 @@ namespace BaseFramework
             {
                 get
                 {
-                    if(_instance == null)
+                    if (_instance == null)
                     {
                         Init();
                     }
@@ -46,30 +72,13 @@ namespace BaseFramework
             }
         }
 
-        private GameObject poolRootObj;
-
         public virtual void OnSingletonInit()
         {
-            poolRootObj = new GameObject().Name(string.Format("{0}_Singleton", GetType().ReadableName()));
-            poolRootObj.transform.SetParent(MonoPoolManager.instance.transform);
-            poolRootObj.Inactive();
-        }
-
-        public GameObject GetGameObject()
-        {
-            return poolRootObj;
-        }
-
-        public MonoPool<T> GameObjectName(string name)
-        {
-            poolRootObj.Name(name);
-            return this;
-        }
-
-        public MonoPool<T> Parent(Transform parent)
-        {
-            poolRootObj.transform.Parent(parent);
-            return this;
+            poolRootObj = new GameObject();
+            poolRootObj
+                .Inactive()
+                .Name(string.Format("{0}_Singleton", GetType().ReadableName()))
+                .transform.SetParent(MonoPoolManager.instance.transform, false);
         }
 
         public virtual void OnSingletonDestroy()
@@ -78,13 +87,32 @@ namespace BaseFramework
             poolRootObj = null;
             SingletonHandler.instance = null;
         }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            OnSingletonDestroy();
-        }
         #endregion
+
+        public MonoPool<T> SetType(MonoPoolType monoPoolType)
+        {
+            if (monoPoolType != poolType)
+            {
+                poolType = monoPoolType;
+                if (poolType == MonoPoolType.Lasting)
+                {
+                    MonoPoolManager.instance.UnRegister(OnSceneUnloaded);
+                }
+                else
+                {
+                    MonoPoolManager.instance.Register(OnSceneUnloaded);
+                }
+            }
+
+            return this;
+        }
+
+        private void OnSceneUnloaded(Scene scene)
+        {
+            MonoPoolManager.instance.UnRegister(OnSceneUnloaded);
+
+            Dispose();
+        }
 
         protected override void OnItemRecycle(T item)
         {
@@ -96,6 +124,12 @@ namespace BaseFramework
         protected override bool CheckUseful(T t)
         {
             return t as MonoBehaviour != null;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            OnSingletonDestroy();
         }
     }
 }
