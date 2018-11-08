@@ -28,7 +28,8 @@ namespace BaseFramework.Test
             RecycleTestItem item = PoolHelper.Create(prefab, MonoPoolType.AutoDispose);
             item.transform
                 .Parent(itemParent, false)
-                .SetAsLastSibling();
+                .LastSibling()
+                .Active();
             item.index = items.Count;
             items.Add(item);
         }

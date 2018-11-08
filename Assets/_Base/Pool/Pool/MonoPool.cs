@@ -7,6 +7,13 @@ namespace BaseFramework
     public class MonoPoolManager : MonoSingleton<MonoPoolManager>
     {
 
+        public override void OnSingletonInit()
+        {
+            base.OnSingletonInit();
+
+            instance.Inactive();
+        }
+
         public void Register(UnityAction<Scene> action)
         {
             SceneManager.sceneUnloaded += action;
@@ -118,7 +125,9 @@ namespace BaseFramework
         {
             base.OnItemRecycle(item);
 
-            (item as MonoBehaviour).transform.SetParent(poolRootObj.transform, false);
+            (item as MonoBehaviour).transform
+                                   .Inactive()
+                                   .Parent(poolRootObj.transform, false);
         }
 
         protected override bool CheckUseful(T t)

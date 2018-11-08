@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Text;
 
 namespace BaseFramework
@@ -7,9 +7,12 @@ namespace BaseFramework
     {
         public static Transform Reset(this Transform self)
         {
-            self.localPosition = Vector3.zero;
-            self.localRotation = Quaternion.identity;
-            self.localScale = Vector3.one;
+            if (self != null)
+            {
+                self.localPosition = Vector3.zero;
+                self.localRotation = Quaternion.identity;
+                self.localScale = Vector3.one;
+            }
             return self;
         }
 
@@ -182,7 +185,8 @@ namespace BaseFramework
 
         public static Transform DestroyAllChildren(this Transform self, float defaultDelay)
         {
-            for (int i = 0; i < self.childCount; ++i)
+            int count = self ? self.childCount : 0;
+            for (int i = 0; i < count; ++i)
             {
                 self.GetChild(i).Destroy(defaultDelay);
             }
@@ -191,9 +195,10 @@ namespace BaseFramework
         }
 
 
-        public static void SetActiveAllChildren(this Transform self, bool active, bool recursive = false)
+        public static Transform SetActiveAllChildren(this Transform self, bool active, bool recursive = false)
         {
-            for (int i = 0; i < self.childCount; ++i)
+            int count = self ? self.childCount : 0;
+            for (int i = 0; i < count; ++i)
             {
                 Transform child = self.GetChild(i);
                 child.gameObject.SetActive(active);
@@ -202,6 +207,7 @@ namespace BaseFramework
                     child.SetActiveAllChildren(active, recursive);
                 }
             }
+            return self;
         }
 
         #endregion
@@ -210,7 +216,8 @@ namespace BaseFramework
 
         public static Transform FindChild(this Transform self, System.Predicate<Transform> predicate = null)
         {
-            for (int i = 0; i < self.childCount; ++i)
+            int count = self ? self.childCount : 0;
+            for (int i = 0; i < count; ++i)
             {
                 Transform child = self.GetChild(i);
                 if (predicate == null || predicate(child))
@@ -258,18 +265,24 @@ namespace BaseFramework
 
         public static Transform CopyInfo(this Transform self, Transform targetTransform)
         {
-            self.SetParent(targetTransform.parent);
-            self.localPosition = targetTransform.localPosition;
-            self.localRotation = targetTransform.localRotation;
-            self.localScale = targetTransform.localScale;
+            if (self != null && targetTransform != null)
+            {
+                self.SetParent(targetTransform.parent);
+                self.localPosition = targetTransform.localPosition;
+                self.localRotation = targetTransform.localRotation;
+                self.localScale = targetTransform.localScale;
+            }
 
             return self;
         }
 
-        public static string GetPath(this Transform transform)
+        public static string GetPath(this Transform self)
         {
-            StringBuilder sb = new StringBuilder(transform.name);
-            for (Transform temp = transform.parent;
+            if (self == null)
+                return null;
+
+            StringBuilder sb = new StringBuilder(self.name);
+            for (Transform temp = self.parent;
                 temp != null;
                 sb.Insert(0, temp.name + "/"), temp = temp.parent);
             return sb.ToString();
@@ -277,7 +290,37 @@ namespace BaseFramework
 
         public static Transform Parent(this Transform self, Transform parent, bool worldPositionStays = true)
         {
-            self.SetParent(parent, worldPositionStays);
+            if (self != null)
+            {
+                self.SetParent(parent, worldPositionStays);
+            }
+            return self;
+        }
+
+        public static Transform LastSibling(this Transform self)
+        {
+            if(self != null)
+            {
+                self.SetAsLastSibling();
+            }
+            return self;
+        }
+
+        public static Transform FirstSibling(this Transform self)
+        {
+            if(self != null)
+            {
+                self.SetAsFirstSibling();
+            }
+            return self;
+        }
+
+        public static Transform SiblingIndex(this Transform self, int index)
+        {
+            if (self != null)
+            {
+                self.SetSiblingIndex(index);
+            }
             return self;
         }
     }

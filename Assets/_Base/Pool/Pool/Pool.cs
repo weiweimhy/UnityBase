@@ -47,16 +47,21 @@ namespace BaseFramework
             if (creator == null)
                 Init();
 
-            T result = CreateFromCache();
-            if (!CheckUseful(result))
+            T item = CreateFromCache();
+            if (!CheckUseful(item))
             {
-                result = creator.Create();
-                result.OnCreate();
+                item = creator.Create();
             }
-            result.isRecycled = false;
-            result.OnReset();
+            else
+            {
+                item.OnReset();
+            }
+            item.OnCreate();
+            item.isRecycled = false;
 
-            return result;
+            OnItemCreate(item);
+
+            return item;
         }
 
         private T CreateFromCache()
@@ -95,6 +100,11 @@ namespace BaseFramework
             cacheStack.Push(item);
 
             return true;
+        }
+
+        protected virtual void OnItemCreate(T item)
+        {
+
         }
 
         protected virtual void OnItemRecycle(T item)

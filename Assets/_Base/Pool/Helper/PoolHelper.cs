@@ -21,7 +21,8 @@ namespace BaseFramework
             return SimplePool<T>.instance.Init(createFunc, initPoolSize, maxPoolSize).Create();
         }
 
-        public static T Create<T>(T prefab, MonoPoolType poolType = MonoPoolType.Lasting,
+        public static T Create<T>(T prefab,
+                                  MonoPoolType poolType = MonoPoolType.Lasting,
                                   int initPoolSize = DEFAULT_INIT_POOL_SIZE,
                                   int maxPoolSize = DEFAULT_MAX_POOL_SIZE) where T : MonoBehaviour, IRecycleable
         {

@@ -45,6 +45,11 @@ namespace BaseFramework.Test
             text = transform.FindChild<Text>();
         }
 
+        public override void OnReset()
+        {
+            base.OnReset();
+        }
+
         public override void Dispose()
         {
             this.Recycle();
