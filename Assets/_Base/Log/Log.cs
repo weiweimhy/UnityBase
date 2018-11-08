@@ -21,8 +21,6 @@ namespace BaseFramework
 
         private static void GetLogInfo(object obj, object msg, out string tag, out string message, params object[] args)
         {
-            Type type = obj.GetType();
-
             if (obj is Type)
             {
                 tag = tagFormat.Format((object)(obj as Type).ReadableName());

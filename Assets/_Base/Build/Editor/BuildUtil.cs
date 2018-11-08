@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 
 namespace BaseFramework.Build
 {
@@ -60,17 +61,20 @@ namespace BaseFramework.Build
 
             string[] scenes = FindEnabledEditorScenes();
             // BuildOptions.AcceptExternalModificationsToPlayer： Used when building Xcode (iOS) or Eclipse (Android) projects.
-            string report = BuildPipeline.BuildPlayer(scenes, exportPath, buildTarget,
+            BuildReport report = BuildPipeline.BuildPlayer(scenes, exportPath, buildTarget,
                                             BuildOptions.AcceptExternalModificationsToPlayer);
+            BuildSummary summary = report.summary;
 
-            if (!string.IsNullOrEmpty(report))
+            if (summary.result == BuildResult.Succeeded)
             {
-                Log.E(TAG, "build message: " + report);
-                return false;
+                Log.I(TAG,
+                      "Build project succeed, size:{0}, time:{1}, outpath:{2}",
+                      summary.totalSize, summary.totalTime, summary.outputPath);
             }
-            else
+
+            if (summary.result == BuildResult.Failed)
             {
-                Log.I(TAG, "Build Project: Succeed");
+                Log.E(TAG, "Build failed");
             }
 
             return true;
