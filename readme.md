@@ -6,8 +6,13 @@
 - Extension扩展
 - 单例和对象池
 - Task模块
+- Res模块
 
 ## Release notes
+### v0.0.6
+- 新增Res模块
+- 重构CoroutineTask
+
 ### v0.05
 - 新增MonoPool
 - 重构部分Task模块
