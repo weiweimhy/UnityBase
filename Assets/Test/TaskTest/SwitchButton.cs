@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +13,7 @@ namespace BaseFramework.Test
         {
             TaskHelper.Create<CoroutineTask>()
                 .Name("task inner")
-                .MonoBehaviour(this)
+                .SetMonoBehaviour(this)
                 .Delay(10)
                 .Do(() => { Log.I(this, "task inner do"); })
                 .Execute();

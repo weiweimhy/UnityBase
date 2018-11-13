@@ -10,7 +10,12 @@ namespace BaseFramework
         protected IEnumerator enumerator;
         protected Coroutine coroutine;
 
-        public CoroutineTask MonoBehaviour(MonoBehaviour monoBehaviour)
+        public MonoBehaviour GetMonoBehaviour()
+        {
+            return behaviour;
+        }
+
+        public CoroutineTask SetMonoBehaviour(MonoBehaviour monoBehaviour)
         {
             behaviour = monoBehaviour;
 
@@ -59,12 +64,12 @@ namespace BaseFramework
 
         public override CoroutineTask Execute()
         {
-            return CoroutineTaskExecutor.instance.Execute(this);
+            return CoroutineTaskManager.instance.Execute(this);
         }
 
         internal override CoroutineTask ExecuteInternal()
         {
-            if (behaviour == null || enumerator == null)
+            if (enumerator == null)
             {
                 throw new NullReferenceException("behaviour or enumerator is null, you should init first!");
             }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace BaseFramework.Test
 {
@@ -20,7 +20,7 @@ namespace BaseFramework.Test
             }).Name("task 1");
 
             CoroutineTask coroutineTask = TaskHelper.Create<CoroutineTask>()
-                .MonoBehaviour(this)
+                .SetMonoBehaviour(this)
                 .Delay(6)
                 .Name("task 2")
                 .OnStart(() => { Log.I(this, "coroutineTask [Onstart], {0}", Time.realtimeSinceStartup); })
@@ -33,6 +33,12 @@ namespace BaseFramework.Test
             #endregion
 
             // 场景切换以后会继续执行
+            TaskHelper.Create<CoroutineTask>()
+                .Delay(5)
+                .Name("task 5")
+                .Do(() => { Log.I(this, "coroutineTask 5 [Do]"); })
+                .Execute();
+
             RunableTask threadTask = TaskHelper.Create<RunableTask>()
                 .Delay(10)
                 .Name("task 3")

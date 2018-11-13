@@ -15,12 +15,12 @@ namespace BaseFramework
         /// </summary>
         public static void CheckAndRecycle()
         {
-            CoroutineTaskExecutor.instance.CheckAndRecycleTask();
+            CoroutineTaskManager.instance.CheckAndRecycleTask();
         }
 
         public static void CheckAndRecycle(CoroutineTask task)
         {
-            CoroutineTaskExecutor.instance.CheckAndRecycleTask(task);
+            CoroutineTaskManager.instance.CheckAndRecycleTask(task);
         }
     }
 }

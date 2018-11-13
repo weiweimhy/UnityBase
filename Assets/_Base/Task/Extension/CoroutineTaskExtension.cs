@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace BaseFramework
                                                params Action[] argActions)
         {
             return TaskHelper.Create<CoroutineTask>()
-                             .MonoBehaviour(self)
+                             .SetMonoBehaviour(self)
                              .Delay(seconds)
                              .Do(argActions)
                              .Execute();
@@ -23,7 +23,7 @@ namespace BaseFramework
                                                params Action[] argActions)
         {
             return TaskHelper.Create<CoroutineTask>()
-                             .MonoBehaviour(self)
+                             .SetMonoBehaviour(self)
                              .Delay(enumerator)
                              .Do(argActions)
                              .Execute();
@@ -34,7 +34,7 @@ namespace BaseFramework
                                                params Action[] argActions)
         {
             return TaskHelper.Create<CoroutineTask>()
-                             .MonoBehaviour(self)
+                             .SetMonoBehaviour(self)
                              .Delay(yieldInstruction)
                              .Do(argActions)
                              .Execute();
