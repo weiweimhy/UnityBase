@@ -24,6 +24,7 @@ namespace BaseFramework.Build
 
         private static void Build2Target(BuildTarget buildTarget)
         {
+            Log.I("BuildUtil", "Start Export Project");
             ExportProject(buildTarget);
             BuildTargetChangedHelper.changeCallback -= Build2Target;
         }
