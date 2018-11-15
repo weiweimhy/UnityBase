@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BaseFramework
 {
@@ -12,6 +12,11 @@ namespace BaseFramework
         public static bool IsNotEmptyAndNull<T>(this T[] self)
         {
             return !self.IsEmptyOrNull();
+        }
+
+        public static bool Any<T>(this T[] self)
+        {
+            return IsNotEmptyAndNull(self);
         }
 
         public static bool IsNullOrEmpty<T>(this T[] self)

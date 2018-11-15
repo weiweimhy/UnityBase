@@ -77,7 +77,7 @@ namespace BaseFramework
         {
             if (null == self)
                 return false;
-            return self.GetCustomAttributes(attributeType, inherit).Length > 0;
+            return self.GetCustomAttributes(attributeType, inherit).Any();
         }
 
         /// <summary>
@@ -88,7 +88,8 @@ namespace BaseFramework
         {
             if (null == self)
                 return false;
-            return self.GetCustomAttributes(attributeType, inherit).Length > 0;
+            return Attribute.IsDefined(self, attributeType);
+            return self.GetCustomAttributes(attributeType, inherit).Any();
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace BaseFramework
         {
             if (null == self)
                 return false;
-            return self.GetCustomAttributes(attributeType, inherit).Length > 0;
+            return Attribute.IsDefined(self, attributeType);
         }
 
         /// <summary>
@@ -110,7 +111,7 @@ namespace BaseFramework
         {
             if (null == self)
                 return false;
-            return self.GetCustomAttributes(attributeType, inherit).Length > 0;
+            return self.GetCustomAttributes(attributeType, inherit).Any();
         }
 
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace BaseFramework
@@ -13,6 +13,11 @@ namespace BaseFramework
         public static bool IsNotEmptyAndNull<T>(this List<T> self)
         {
             return !self.IsEmptyOrNull();
+        }
+
+        public static bool Any<T>(this List<T> self)
+        {
+            return IsNotEmptyAndNull(self);
         }
 
         public static bool IsNullOrEmpty<T>(this List<T> self)

@@ -19,7 +19,7 @@ namespace BaseFramework
                 _instance = FindObjectOfType<T>() as T;
                 if (_instance == null)
                 {
-                    _instance = new GameObject().Name(typeof(T).ReadableName() + "_Singleton").AddComponent<T>();
+                    _instance = new GameObject(typeof(T).ReadableName() + "_Singleton").AddComponent<T>();
                 }
                 else
                 {
