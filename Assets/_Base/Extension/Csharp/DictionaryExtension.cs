@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace BaseFramework
@@ -29,7 +29,7 @@ namespace BaseFramework
         {
             if (self.IsNull())
             {
-                Log.W(typeof(ListExtension), "Dictionary is null");
+                Log.W(typeof(List), "Dictionary is null");
             }
             else
             {
@@ -48,13 +48,13 @@ namespace BaseFramework
         {
             if (self.IsNull())
             {
-                Log.W(typeof(ListExtension), "Dictionary is null");
+                Log.W(typeof(List), "Dictionary is null");
             } 
             else
             {
                 if(sourceDic.IsEmptyOrNull())
                 {
-                    Log.W(typeof(ListExtension), "Dictionary is null");
+                    Log.W(typeof(List), "Dictionary is null");
                     return self;
                 }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BaseFramework
 {
-    public static class ListExtension
+    public static class List
     {
         public static bool IsEmptyOrNull<T>(this List<T> self)
         {
@@ -34,7 +34,7 @@ namespace BaseFramework
         {
             if (self.IsNull())
             {
-                Log.W(typeof(ListExtension), "List is null");
+                Log.W(typeof(List), "List is null");
             }
             else
             {
@@ -49,7 +49,7 @@ namespace BaseFramework
         {
             if (self.IsNull())
             {
-                Log.W(typeof(ListExtension), "List is null");
+                Log.W(typeof(List), "List is null");
             }
             else
             {
@@ -70,12 +70,12 @@ namespace BaseFramework
         {
             if (self.IsNull())
             {
-                Log.W(typeof(ListExtension), "List is null");
+                Log.W(typeof(List), "List is null");
                 return default(T);
             }
             if (self.Count == 0)
             {
-                Log.W(typeof(ListExtension), "List is empty");
+                Log.W(typeof(List), "List is empty");
                 return default(T);
             }
 
@@ -86,12 +86,12 @@ namespace BaseFramework
         {
             if (self.IsNull())
             {
-                Log.W(typeof(ListExtension), "List is null");
+                Log.W(typeof(List), "List is null");
                 return default(T);
             }
             if (self.Count == 0)
             {
-                Log.W(typeof(ListExtension), "List is empty");
+                Log.W(typeof(List), "List is empty");
                 return default(T);
             }
 
@@ -104,12 +104,12 @@ namespace BaseFramework
         {
             if (self.IsNull())
             {
-                Log.W(typeof(ListExtension), "List is null");
+                Log.W(typeof(List), "List is null");
                 return default(T);
             }
             if (self.Count == 0)
             {
-                Log.W(typeof(ListExtension), "List is empty");
+                Log.W(typeof(List), "List is empty");
                 return default(T);
             }
 
