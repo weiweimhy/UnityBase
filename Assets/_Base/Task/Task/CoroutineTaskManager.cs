@@ -3,7 +3,12 @@ using UnityEngine.SceneManagement;
 
 namespace BaseFramework
 {
-    public class CoroutineTaskManager : MonoSingleton<CoroutineTaskManager>
+    public class CoroutineTaskExecutor : MonoSingleton<CoroutineTaskExecutor>
+    {
+
+    }
+
+    public class CoroutineTaskManager : Singleton<CoroutineTaskManager>
     {
         private List<CoroutineTask> tasks;
 
@@ -31,7 +36,7 @@ namespace BaseFramework
         {
             if(task.GetMonoBehaviour() == null)
             {
-                task.SetMonoBehaviour(this);
+                task.SetMonoBehaviour(CoroutineTaskExecutor.instance);
             }
             tasks.Add(task);
 

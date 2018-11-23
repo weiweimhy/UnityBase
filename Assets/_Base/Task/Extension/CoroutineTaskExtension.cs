@@ -6,18 +6,6 @@ namespace BaseFramework
 {
     public static class CoroutineTaskExtension
     {
-
-        public static CoroutineTask ExcuteTask(this MonoBehaviour self,
-                                               float seconds,
-                                               params Action[] argActions)
-        {
-            return TaskHelper.Create<CoroutineTask>()
-                             .SetMonoBehaviour(self)
-                             .Delay(seconds)
-                             .Do(argActions)
-                             .Execute();
-        }
-
         public static CoroutineTask ExcuteTask(this MonoBehaviour self,
                                                IEnumerator enumerator,
                                                params Action[] argActions)
@@ -44,7 +32,7 @@ namespace BaseFramework
                                  float seconds,
                                  params Action[] argActions)
         {
-            ExcuteTask(self, seconds, argActions).Name(self.name + "-delay-" + seconds);
+            ExcuteTask(self, seconds > 0 ? new WaitForSeconds(seconds) : null, argActions).Name(self.name + "-delay-" + seconds);
         }
     }
 }

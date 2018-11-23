@@ -1,4 +1,4 @@
-using UnityEngine;
+using System;
 
 namespace BaseFramework
 {
@@ -7,6 +7,11 @@ namespace BaseFramework
         public static T Create<T>() where T : Task<T>
         {
             return PoolHelper.Create<T>();
+        }
+
+        public static T Create<T>(Func<T> createFunc) where T : Task<T>
+        {
+            return PoolHelper.Create<T>(createFunc);
         }
 
         /// <summary>

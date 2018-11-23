@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BaseFramework
 {
@@ -22,31 +22,31 @@ namespace BaseFramework
             return this as T;
         }
 
-        public T OnStart(params Action[] actions)
+        public virtual T OnStart(params Action[] actions)
         {
             actions.ForEach(action => onStart += action);
             return this as T;
         }
 
-        public T Do(params Action[] actions)
+        public virtual T Do(params Action[] actions)
         {
             actions.ForEach(action => doAction += action);
             return this as T;
         }
 
-        public T OnFinish(params Action[] actions)
+        public virtual T OnFinish(params Action[] actions)
         {
             actions.ForEach(action => onFinish += action);
             return this as T;
         }
 
-        public T OnCancle(params Action[] actions)
+        public virtual T OnCancle(params Action[] actions)
         {
             actions.ForEach(action => onCancle += action);
             return this as T;
         }
 
-        public T AutoRecycle(bool auto)
+        public virtual T AutoRecycle(bool auto)
         {
             autoRecycle = auto;
             return this as T;

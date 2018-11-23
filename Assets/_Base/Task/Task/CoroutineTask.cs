@@ -1,14 +1,62 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BaseFramework
 {
+    public class CoroutineTaskStream : SimpleRecycleItem
+    {
+        public enum StreamType
+        {
+            WAIT, ACTION
+        }
+
+        public StreamType streamType;
+        public IEnumerator enumerator;
+        public Action action;
+
+        public CoroutineTaskStream Set(IEnumerator enumerator)
+        {
+            streamType = StreamType.WAIT;
+            this.enumerator = enumerator;
+            return this;
+        }
+
+        public CoroutineTaskStream Set(Action action)
+        {
+            streamType = StreamType.ACTION;
+            this.action = action;
+            return this;
+        }
+
+        public override void OnRecycle()
+        {
+            base.OnRecycle();
+            enumerator = null;
+            action = null;
+        }
+
+        public override void Dispose()
+        {
+            this.Recycle();
+        }
+    }
+
     public class CoroutineTask : Task<CoroutineTask>
     {
         protected MonoBehaviour behaviour;
-        protected IEnumerator enumerator;
         protected Coroutine coroutine;
+        protected List<CoroutineTaskStream> streams = new List<CoroutineTaskStream>();
+
+        public CoroutineTask()
+        {
+        }
+
+        public CoroutineTask(MonoBehaviour monoBehaviour)
+        {
+            behaviour = monoBehaviour;
+        }
 
         public MonoBehaviour GetMonoBehaviour()
         {
@@ -22,38 +70,114 @@ namespace BaseFramework
             return this;
         }
 
-        public CoroutineTask Delay(IEnumerator enumerator)
+        public CoroutineTask Wait(params IEnumerator[] enumerators)
         {
-            this.enumerator = CreateEnumerator(enumerator);
+            return Delay(enumerators);
+        }
+
+        public CoroutineTask Wait(params YieldInstruction[] yieldInstructions)
+        {
+            return Delay(yieldInstructions);
+        }
+
+        public CoroutineTask Wait(params float[] delays)
+        {
+            return Delay(delays);
+        }
+
+        public CoroutineTask Delay(params IEnumerator[] enumerators)
+        {
+            streams.Add(PoolHelper.Create<CoroutineTaskStream>().Set(CreateEnumerator(enumerators)));
             return this;
         }
 
-        public CoroutineTask Delay(YieldInstruction yieldInstruction)
+        public CoroutineTask Delay(params YieldInstruction[] yieldInstructions)
         {
-            enumerator = CreateEnumerator(enumerator);
+            streams.Add(PoolHelper.Create<CoroutineTaskStream>().Set(CreateEnumerator(yieldInstructions)));
             return this;
         }
 
-        public CoroutineTask Delay(float delay)
+        public CoroutineTask Delay(params float[] delays)
         {
-            enumerator = CreateEnumerator(new WaitForSeconds(delay));
+            streams.Add(PoolHelper.Create<CoroutineTaskStream>().Set(CreateEnumerator(delays)));
             return this;
         }
 
-        IEnumerator CreateEnumerator(IEnumerator enumerator)
+        IEnumerator CreateEnumerator(params float[] delays)
         {
-            yield return enumerator;
-
-            Do();
-            Finish();
+            if (delays.IsEmptyOrNull())
+            {
+                yield return null;
+            }
+            else
+            {
+                for (int i = 0; i < delays.Length; ++i)
+                {
+                    if (delays[i] > 0)
+                        yield return new WaitForSeconds(delays[i]);
+                    else
+                        yield return null;
+                }
+            }
         }
 
-        IEnumerator CreateEnumerator(YieldInstruction yieldInstruction)
+        IEnumerator CreateEnumerator(params IEnumerator[] enumerators)
         {
-            yield return yieldInstruction;
+            if (enumerators.IsEmptyOrNull())
+            {
+                yield return null;
+            }
+            else
+            {
+                for (int i = 0; i < enumerators.Length; ++i)
+                {
+                    if (enumerators[i] != null)
+                    {
+                        yield return enumerators[i];
+                    }
+                    else
+                    {
+                        yield return null;
+                    }
+                }
+            }
+        }
 
-            Do();
-            Finish();
+        IEnumerator CreateEnumerator(params YieldInstruction[] yieldInstructions)
+        {
+            if (yieldInstructions.IsEmptyOrNull())
+            {
+                yield return null;
+            }
+            else
+            {
+                for (int i = 0; i < yieldInstructions.Length; ++i)
+                {
+                    if (yieldInstructions[i] != null)
+                    {
+                        yield return yieldInstructions[i];
+                    }
+                    else
+                    {
+                        yield return null;
+                    }
+                }
+            }
+        }
+
+        public override CoroutineTask Do(params Action[] actions)
+        {
+            if (actions.Length > 0)
+            {
+                actions.ForEach(it => Next(it));
+            }
+            return this;
+        }
+
+        public CoroutineTask Next(Action action)
+        {
+            streams.Add(PoolHelper.Create<CoroutineTaskStream>().Set(action));
+            return this;
         }
 
         public bool ShouldRecycle()
@@ -69,19 +193,46 @@ namespace BaseFramework
 
         internal override CoroutineTask ExecuteInternal()
         {
-            if (enumerator == null)
-            {
-                throw new NullReferenceException("behaviour or enumerator is null, you should init first!");
-            }
-
             if (status != TaskStatus.Unexcuted)
                 return this;
 
             Start();
 
-            coroutine = behaviour.StartCoroutine(enumerator);
+            coroutine = behaviour.StartCoroutine(DoCoroutine());
 
             return this;
+        }
+
+        IEnumerator DoCoroutine()
+        {
+            if (streams.IsEmptyOrNull())
+            {
+                yield return null;
+            }
+            else
+            {
+                for (int i = 0; i < streams.Count; ++i)
+                {
+                    CoroutineTaskStream it = streams[i];
+                    if (it.streamType == CoroutineTaskStream.StreamType.WAIT)
+                    {
+                        if (it.enumerator != null)
+                        {
+                            yield return it.enumerator;
+                        }
+                        else
+                        {
+                            yield return null;
+                        }
+                    }
+                    else
+                    {
+                        it.action.InvokeGracefully();
+                    }
+                }
+            }
+
+            Finish();
         }
 
         public override void Dispose()
@@ -93,8 +244,11 @@ namespace BaseFramework
         {
             base.OnRecycle();
             behaviour = null;
-            enumerator = null;
             coroutine = null;
+            streams.ForEach(it => {
+                it.Dispose();
+            });
+            streams.Clear();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 
 namespace BaseFramework
@@ -40,11 +40,6 @@ namespace BaseFramework
             callback.InvokeGracefully();
         }
 
-        public override void Dispose()
-        {
-            this.Recycle();
-        }
-
         protected override void DoCancle()
         {
             thread.Abort();
@@ -55,6 +50,11 @@ namespace BaseFramework
         {
             base.OnRecycle();
             thread = null;
+        }
+
+        public override void Dispose()
+        {
+            this.Recycle();
         }
     }
 }
