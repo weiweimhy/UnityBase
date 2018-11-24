@@ -6,8 +6,9 @@ namespace BaseFramework
 {
     public struct AssetBundleUnit
     {
-        public string name;
-        public AssetBundle assetBundle;
+        public string name { get; set; }
+        public AssetBundle assetBundle { get; set; }
         public string[] dependencies;
+        public int referenceCount { get; set; }
     }
 }

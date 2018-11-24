@@ -30,6 +30,21 @@ namespace BaseFramework
             return !self.IsNullOrEmpty();
         }
 
+        public static List<T> ForEach<T>(this List<T> self, Action<int, T> action)
+        {
+            if (self.IsNull())
+            {
+                Log.W(typeof(List), "List is null");
+            }
+            else
+            {
+                for (int i = 0; i < self.Count; ++i)
+                    action(i, self[i]);
+            }
+
+            return self;
+        }
+
         public static List<T> ForEachReverse<T>(this List<T> self, Action<T> action)
         {
             if (self.IsNull())
