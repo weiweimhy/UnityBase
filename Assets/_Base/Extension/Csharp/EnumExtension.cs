@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BaseFramework
 {
@@ -12,7 +12,7 @@ namespace BaseFramework
             ONE = 1, TWO, THREE
         }
 
-        [MenuItem("Example/Extension/Enum")]
+        [MenuItem("Base/Example/Extension/Enum")]
         public static void RunExample()
         {
             ExampleEnum example = "THREE".ToEnum<ExampleEnum>();

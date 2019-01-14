@@ -13,7 +13,7 @@ namespace BaseFramework
 
         }
 
-        [MenuItem("Example/Extension/Type")]
+        [MenuItem("Base/Example/Extension/Type")]
         public static void RunExample()
         {
             bool isSimple = true;

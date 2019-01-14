@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -45,11 +45,22 @@ namespace BaseFramework
 
         public static string Format(this string self, params object[] args)
         {
-            if(self.IsEmptyOrNull() || args == null)
+            if (self.IsEmptyOrNull() || args == null)
             {
                 return self;
             }
-            return string.Format(self, args);
+            if (args.Any())
+            {
+                try
+                {
+                    return string.Format(self, args);
+                }
+                catch
+                {
+                    return self;
+                }
+            }
+            return self;
         }
 
         public static StringBuilder Append(this string self, string appendStr)
@@ -70,11 +81,16 @@ namespace BaseFramework
         public static string AddSuffix(this string self, string suffix)
         {
             return self.Append(suffix).ToString();
-        } 
+        }
+
+        public static string Join(this string self, string target, string split = null)
+        {
+            return self + (split == null ? target : (split + target));
+        }
 
         public static bool EqualsIgnoreCase(this string self, string target)
         {
-            if(self.IsNull() || target.IsNull())
+            if (self.IsNull() || target.IsNull())
             {
                 return false;
             }
@@ -112,7 +128,7 @@ namespace BaseFramework
             return self.Replace(char.ToLower(oldValue), newValue).Replace(char.ToUpper(oldValue), newValue);
         }
 
-        public static string ReplaceIgnoreCase(this string self, String oldValue, String newValue)
+        public static string ReplaceIgnoreCase(this string self, string oldValue, string newValue)
         {
             if (self.IsNull() || oldValue.IsNull() || newValue.IsNull())
             {
@@ -150,7 +166,7 @@ namespace BaseFramework
         {
             char[] chars = slef.ToCharArray();
             Array.Reverse(chars);
-            return new String(chars);
+            return new string(chars);
         }
 
         public static bool Match(this string self, string pattern)

@@ -53,6 +53,19 @@ namespace BaseFramework
         }
         #endregion
 
+        #region Anchored Position
+        public static Vector3 GetAnchoredPosition(this Transform self)
+        {
+            return self.As<RectTransform>().anchoredPosition;
+        }
+
+        public static Transform AnchoredPosition(this Transform self, Vector3 anchoredPosition)
+        {
+            self.As<RectTransform>().anchoredPosition = anchoredPosition;
+            return self;
+        }
+        #endregion
+
         #region local rotation
 
         public static Quaternion GetLocalRotaiton(this Transform self)
@@ -69,6 +82,25 @@ namespace BaseFramework
         public static Transform LocalRotationReset(this Transform self)
         {
             self.localRotation = Quaternion.identity;
+            return self;
+        }
+        #endregion
+
+        #region local localEulerAngles
+        public static Vector3 GetLocalEulerAngles(this Transform self)
+        {
+            return self.localEulerAngles;
+        }
+
+        public static Transform LocalEulerAngles(this Transform self, Vector3 localEulerAngles)
+        {
+            self.localEulerAngles = localEulerAngles;
+            return self;
+        }
+
+        public static Transform LocalEulerAnglesReset(this Transform self)
+        {
+            self.localEulerAngles = Vector3.zero;
             return self;
         }
         #endregion
@@ -322,6 +354,35 @@ namespace BaseFramework
                 self.SetSiblingIndex(index);
             }
             return self;
+        }
+
+        public static Transform SetSizeDelta(this Transform self, Vector2 size)
+        {
+            if(self != null && self is RectTransform)
+            {
+                (self as RectTransform).sizeDelta = size;
+            }
+            return self;
+        }
+
+        public static Rect GetWordRect(this Transform self)
+        {
+            if (self == null || !(self is RectTransform))
+            {
+                throw new System.NullReferenceException("[GetWordRect] transform is null");
+            }
+            Vector2 size = Vector2.Scale(self.As<RectTransform>().rect.size, self.lossyScale);
+            return new Rect((Vector2)self.position - (size * 0.5f), size);
+        }
+
+        public static bool IsPositionIn(this Transform self, Vector3 position, bool worldSpace = false, float rectScale = 1)
+        {
+            if (!worldSpace)
+                position = Camera.main.ScreenToWorldPoint(position);
+
+            Rect rect = self.GetWordRect();
+            Rect scaleRect = new Rect(rect.center - rect.size * rectScale / 2, rect.size * rectScale);
+            return scaleRect.Contains(position);
         }
     }
 }

@@ -5,7 +5,7 @@
 
     public class ClassExtensionExample
     {
-        [MenuItem("Example/Extension/Class")]
+        [MenuItem("Base/Example/Extension/Class")]
         public static void RunExample()
         {
             var example = new object();

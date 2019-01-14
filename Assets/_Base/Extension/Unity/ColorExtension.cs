@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace BaseFramework
 {
@@ -7,7 +7,7 @@ namespace BaseFramework
 
     public class ColorExtensionExample
     {
-        [MenuItem("Example/Extension/Color")]
+        [MenuItem("Base/Example/Extension/Color")]
         public static void RunExample()
         {
             Log.I(typeof(ColorExtensionExample).Name, "#55675d = " + "55675d".ToColor());
