@@ -1,5 +1,0 @@
-# 文件夹说明
-
-目前使用Google插件里面的PlayServicesResolver来完成Android里面的jar/aar和iOS podfile文件的创建和执行
-
-后续将自己编写此文件

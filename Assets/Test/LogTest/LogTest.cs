@@ -1,8 +1,7 @@
-﻿using Base.LogUtil;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Base.Test
+namespace BaseFramework.Test
 {
     public class LogTest : MonoBehaviour
     {
@@ -34,25 +33,25 @@ namespace Base.Test
                 string tag = tagInputField.text;
                 string message = messageInputField.text;
                 string param = paramInputField.text;
-                string[] @params = null;
+                string[] args = null;
                 if (!string.IsNullOrEmpty(param))
                 {
-                    @params = param.Split('|');
+                    args = param.Split('|');
                 }
 
                 switch (currentLogLevel + Log.LogLevel.DEBUG)
                 {
                     case Log.LogLevel.DEBUG:
-                        Log.D(tag, message, @params);
+                        Log.D(tag, message, args);
                         break;
                     case Log.LogLevel.INFO:
-                        Log.D(tag, message, @params);
+                        Log.D(tag, message, args);
                         break;
                     case Log.LogLevel.WARN:
-                        Log.W(tag, message, @params);
+                        Log.W(tag, message, args);
                         break;
                     case Log.LogLevel.ERROR:
-                        Log.E(tag, message, @params);
+                        Log.E(tag, message, args);
                         break;
                 }
             });

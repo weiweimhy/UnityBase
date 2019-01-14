@@ -8,3 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Test/LogTest/LogTest.unity
     guid: aa2fdf4cba0f53e4e9d27c303161353a
+  - enabled: 1
+    path: Assets/Test/TaskTest/TaskTest.unity
+    guid: 3006868e106a97f4f8fde08da3e677d7
+  - enabled: 1
+    path: Assets/Test/TaskTest/TaskTest2.unity
+    guid: 55e886d44d6345a4ca87227dfadc8819
+  - enabled: 1
+    path: Assets/Test/MonoPoolTest/MonoPoolTest2.unity
+    guid: 30ed59b490bb37e468b7a9143d6c3d55
+  - enabled: 1
+    path: Assets/Test/MonoPoolTest/MonoPoolTest.unity
+    guid: 637741f531bce684381b4af71947e888
