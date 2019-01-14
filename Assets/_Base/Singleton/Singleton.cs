@@ -14,29 +14,14 @@ namespace BaseFramework
 
             internal static void Init()
             {
-                _instance = new T();
-                _instance.OnSingletonInit();
+                instance = new T();
+                instance.OnSingletonInit();
             }
 
             /// <summary>
             /// 不使用readonly是为了销毁
             /// </summary>
-            private static T _instance;
-            internal static T instance
-            {
-                get
-                {
-                    if (_instance == null)
-                    {
-                        Init();
-                    }
-                    return _instance;
-                }
-                set
-                {
-                    _instance = value;
-                }
-            }
+            internal static T instance;
         }
 
         public static T instance

@@ -15,28 +15,14 @@ namespace BaseFramework
             {
                 Init();
             }
+
             internal static void Init()
             {
-                _instance = new SimplePool<T>();
-                _instance.OnSingletonInit();
+                instance = new SimplePool<T>();
+                instance.OnSingletonInit();
             }
 
-            private static SimplePool<T> _instance;
-            internal static SimplePool<T> instance
-            {
-                get
-                {
-                    if (_instance == null)
-                    {
-                        Init();
-                    }
-                    return _instance;
-                }
-                set
-                {
-                    _instance = value;
-                }
-            }
+            internal static SimplePool<T> instance;
         }
 
         public static SimplePool<T> instance

@@ -49,26 +49,11 @@ namespace BaseFramework
             }
             internal static void Init()
             {
-                _instance = new MonoPool<T>();
-                _instance.OnSingletonInit();
+                instance = new MonoPool<T>();
+                instance.OnSingletonInit();
             }
 
-            private static MonoPool<T> _instance;
-            internal static MonoPool<T> instance
-            {
-                get
-                {
-                    if (_instance == null)
-                    {
-                        Init();
-                    }
-                    return _instance;
-                }
-                set
-                {
-                    _instance = value;
-                }
-            }
+            internal static MonoPool<T> instance;
         }
 
         public static MonoPool<T> instance

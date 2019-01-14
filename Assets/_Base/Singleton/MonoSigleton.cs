@@ -14,38 +14,24 @@ namespace BaseFramework
             {
                 Init();
             }
+
             internal static void Init()
             {
-                _instance = FindObjectOfType<T>() as T;
-                if (_instance == null)
+                instance = FindObjectOfType<T>() as T;
+                if (instance == null)
                 {
-                    _instance = new GameObject(typeof(T).ReadableName() + "_Singleton").AddComponent<T>();
+                    instance = new GameObject(typeof(T).ReadableName() + "_Singleton").AddComponent<T>();
                 }
                 else
                 {
-                    _instance.OnSingletonInit();
+                    instance.OnSingletonInit();
                 }
             }
 
             /// <summary>
             /// 不使用readonly是为了销毁
             /// </summary>
-            private static T _instance;
-            internal static T instance
-            {
-                get
-                {
-                    if (_instance == null)
-                    {
-                        Init();
-                    }
-                    return _instance;
-                }
-                set
-                {
-                    _instance = value;
-                }
-            }
+            internal static T instance;
         }
 
         public static T instance
@@ -77,8 +63,11 @@ namespace BaseFramework
 
         protected virtual void OnDestroy()
         {
-            OnSingletonDestroy();
-            SingletonHandler.instance = null;
+            if(this == instance)
+            {
+                OnSingletonDestroy();
+                SingletonHandler.instance = null;
+            }
         }
 
         /// <summary>
