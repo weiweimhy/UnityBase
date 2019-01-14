@@ -2,13 +2,31 @@
 
 ## 功能点
 - Log系统
-- Xcode导出
+- Xcode/Android Studio导出
 - Extension扩展
 - 单例和对象池
 - Task模块
 - Res模块
+- 常用第三方库
+  * firebase
+  * bugly
+  * appsflyer
+- 屏幕适配
+- Crash捕获
+- 命令行工具
+- Lunch场景管理
+- 常用UI
+- 场景切换动画
 
 ## Release notes
+### v1.0.0
+- 重构大量代码
+- 删除Google resolver
+- 增加屏幕适配管理
+- 接入常用第三方库
+- 增加DOTween动画
+- 增加splash和场景切换动画
+
 ### v0.0.6
 - 新增Res模块
 - 重构CoroutineTask
