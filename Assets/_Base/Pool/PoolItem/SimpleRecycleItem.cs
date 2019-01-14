@@ -1,6 +1,6 @@
 namespace BaseFramework
 {
-    public abstract class SimpleRecycleItem : IRecycleable
+    public abstract class SimpleRecycleItem<T> : IRecycleable where T : class, IRecycleable
     {
         public bool isRecycled { get; set; }
 
@@ -16,7 +16,9 @@ namespace BaseFramework
         {
         }
 
-        public abstract void Dispose();
-
+        public virtual void Dispose()
+        {
+            (this as T).Recycle();
+        }
     }
 }

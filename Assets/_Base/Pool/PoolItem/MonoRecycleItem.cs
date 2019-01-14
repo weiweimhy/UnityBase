@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace BaseFramework
 {
-    public abstract class MonoRecycleItem: MonoBehaviour, IRecycleable
+    public abstract class MonoRecycleItem<T> : MonoBehaviour, IRecycleable where T : class, IRecycleable
     {
 
         public bool isRecycled { get; set; }
@@ -18,8 +18,12 @@ namespace BaseFramework
 
         public virtual void OnRecycle()
         {
+            this.Inactive();
         }
 
-        public abstract void Dispose();
+        public virtual void Dispose()
+        {
+            (this as T).Recycle();
+        }
     }
 }
