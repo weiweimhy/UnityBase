@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 namespace BaseFramework
 {
+    /// <summary>
+    /// ����״̬�İ�ť��ÿ��״̬Sprite��ͬ
+    /// </summary>
     [RequireComponent(typeof(Button))]
     public class TwoStatusButton : MonoBehaviour
     {
