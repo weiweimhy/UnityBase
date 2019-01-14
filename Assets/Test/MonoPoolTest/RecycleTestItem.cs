@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace BaseFramework.Test
 {
-    public class RecycleTestItem : MonoRecycleItem
+    public class RecycleTestItem : MonoRecycleItem<RecycleTestItem>
     {
 
         private Image image;
@@ -48,11 +48,6 @@ namespace BaseFramework.Test
         public override void OnReset()
         {
             base.OnReset();
-        }
-
-        public override void Dispose()
-        {
-            this.Recycle();
         }
     }
 }
