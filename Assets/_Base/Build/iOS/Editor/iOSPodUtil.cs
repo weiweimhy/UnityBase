@@ -1,3 +1,4 @@
+#if UNITY_IOS && UNITY_EDITOR
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -58,21 +59,23 @@ namespace BaseFramework.Build
         private static bool CopyPodfile(string path)
         {
             // check podfile
-            FileInfo fileInfo = new FileInfo(sourcePath);
+            string sourceFilePath = Application.dataPath + sourcePath;
+            FileInfo fileInfo = new FileInfo(sourceFilePath);
             if (!fileInfo.Exists)
             {
                 Log.E(TAG, "{0} not exists!", sourcePath);
                 return false;
             }
 
-            File.Copy(Application.dataPath + sourcePath, Path.Combine(path, "Podfile"));
+            File.Copy(sourceFilePath, Path.Combine(path, "Podfile"));
 
             return true;
         }
 
         private static bool ExecutedPod(string podPath, string projectPath)
         {
-            string commandLine = string.Format("cd {0} && {1} update && {2} install", projectPath, podPath, podPath);
+            string commandLine = string.Format("cd {0} && {1} update && {2} install",
+                                               projectPath, podPath, podPath);
             Log.I(TAG, "start executed command\n{0}", commandLine);
             CommandUtil.CommandResult result = CommandUtil.ExecuteCommand(commandLine);
 
@@ -87,3 +90,4 @@ namespace BaseFramework.Build
         }
     }
 }
+#endif

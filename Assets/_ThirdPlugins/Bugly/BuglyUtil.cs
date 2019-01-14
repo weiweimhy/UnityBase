@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 namespace BaseFramework.ThirdPlugin.Bugly
 {
@@ -43,9 +44,9 @@ namespace BaseFramework.ThirdPlugin.Bugly
                 return _buglyLogClass;
             }
         }
+#endif
 
         private static bool initFinished = false;
-#endif
 
         public static void Init(string id, bool isDebug, bool enableExceptionHandler = true)
         {

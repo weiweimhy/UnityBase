@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iOSVersionName: 1.0.0
   iOSBuildCode: 1
-  iOSExportPath: 
+  iOSExportPath: /Users/mac126/workspace/out/base
   signTeamID: 
   capabilitys: 
   frameworks:

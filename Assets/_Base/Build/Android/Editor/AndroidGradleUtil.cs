@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+#if UNITY_ANDROID && UNITY_EDITOR
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -41,3 +40,4 @@ namespace BaseFramework.Build
         }
     }
 }
+#endif

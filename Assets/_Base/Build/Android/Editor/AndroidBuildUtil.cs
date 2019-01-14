@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEditor.Callbacks;
 
@@ -23,6 +22,9 @@ namespace BaseFramework.Build
             {
                 return;
             }
+
+            // open project dir
+            CommandUtil.ExecuteCommand("explorer " + path);
         }
 
         #endregion

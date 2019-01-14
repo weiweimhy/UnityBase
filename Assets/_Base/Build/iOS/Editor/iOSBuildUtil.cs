@@ -59,6 +59,9 @@ namespace BaseFramework.Build
             AddFile();
 
             File.WriteAllText(pbxProjectPath, pbxProject.WriteToString());
+
+            // open project file
+            CommandUtil.ExecuteCommand("open " + path);
         }
 
         static void InitProjectInfo(string path)

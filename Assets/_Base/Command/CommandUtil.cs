@@ -27,11 +27,11 @@ namespace BaseFramework
 
             if (Application.platform == RuntimePlatform.OSXEditor)
             {
-                processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
+                processInfo = new ProcessStartInfo("/bin/bash", $"-c \"{command}\"");
             }
             else if (Application.platform == RuntimePlatform.WindowsEditor)
             {
-                processInfo = new ProcessStartInfo("/bin/bash", $"-c \"{command}\"");
+                processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
             }
 
             if (processInfo == null)
