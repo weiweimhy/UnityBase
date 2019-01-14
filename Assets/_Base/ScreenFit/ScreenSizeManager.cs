@@ -39,6 +39,8 @@ namespace BaseFramework
         private float canvasRealRatio;
         private Vector2 canvasRealSize;
 
+        private Vector2 canvasSize;
+
         private string logString;
 
         public void Init(float min = DEFAULT_IDEAL_MIN, float max = DEFAULT_IDEAL_MAX, float math = DEFAULT_MATCH)
@@ -69,6 +71,7 @@ namespace BaseFramework
                 float logHeight = Mathf.Log(screenSize.y / idealSize.y, 2f);
                 float scaleFactor = Mathf.Pow(2f, Mathf.Lerp(logWidth, logHeight, math));
                 canvasRealSize = screenSize / scaleFactor;
+                canvasSize = canvasRealSize;
                 // iphoneX顶部刘海，底部圆角都是无效区域
                 if (isiPhoneX)
                     canvasRealSize -= screenModle == ScreenModle.Portrait
@@ -121,6 +124,12 @@ namespace BaseFramework
         {
             Init();
             return canvasRealSize;
+        }
+
+        public Vector2 GetCanvasSize()
+        {
+            Init();
+            return canvasSize;
         }
 
         public ScreenModle GetScreenModle()

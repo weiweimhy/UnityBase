@@ -5,6 +5,7 @@ namespace BaseFramework
 
     public class ScreenFitiPhoneX : MonoBehaviour
     {
+#if UNITY_IOS || UNITY_EDITOR
         public enum FitType
         {
             Top, Bottom, Full
@@ -36,5 +37,6 @@ namespace BaseFramework
                 }
             }
         }
+#endif
     }
 }
