@@ -2,7 +2,7 @@ using System;
 
 namespace BaseFramework
 {
-    public abstract class Task<T> : SimpleRecycleItem, ITask<T> where T : class
+    public abstract class Task<T> : SimpleRecycleItem<T>, ITask<T> where T : class, IRecycleable
     {
         public string name;
 

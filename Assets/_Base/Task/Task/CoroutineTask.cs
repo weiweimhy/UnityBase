@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BaseFramework
 {
-    public class CoroutineTaskStream : SimpleRecycleItem
+    public class CoroutineTaskStream : SimpleRecycleItem<CoroutineTaskStream>
     {
         public enum StreamType
         {
@@ -48,6 +48,7 @@ namespace BaseFramework
         protected MonoBehaviour behaviour;
         protected Coroutine coroutine;
         protected List<CoroutineTaskStream> streams = new List<CoroutineTaskStream>();
+        protected float min;
 
         public CoroutineTask()
         {
@@ -68,6 +69,18 @@ namespace BaseFramework
             behaviour = monoBehaviour;
 
             return this;
+        }
+
+        public CoroutineTask SetMin(float min)
+        {
+            this.min = min;
+
+            return this;
+        }
+
+        public float GetMin()
+        {
+            return this.min;
         }
 
         public CoroutineTask Wait(params IEnumerator[] enumerators)
@@ -205,9 +218,11 @@ namespace BaseFramework
 
         IEnumerator DoCoroutine()
         {
+            float startTime = Time.realtimeSinceStartup;
+
             if (streams.IsEmptyOrNull())
             {
-                yield return null;
+                yield return startTime == 0 ? null : new WaitForSeconds(min);
             }
             else
             {
@@ -230,14 +245,13 @@ namespace BaseFramework
                         it.action.InvokeGracefully();
                     }
                 }
+                while(Time.realtimeSinceStartup - startTime < min)
+                {
+                    yield return null;
+                }
             }
 
             Finish();
-        }
-
-        public override void Dispose()
-        {
-            this.Recycle();
         }
 
         public override void OnRecycle()
