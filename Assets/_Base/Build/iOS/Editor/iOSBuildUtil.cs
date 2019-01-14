@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -10,8 +10,8 @@ namespace BaseFramework.Build
     public class iOSBuildUtil
     {
         #region Build
-        [MenuItem("Build/Export iOS XCode Project", false, 2)]
-        public static void ExportXCodeProject()
+        [MenuItem("Base/Build/Export iOS XCode Project", false, 2)]
+        public static void ExportProject()
         {
             BuildUtil.ExportTarget(BuildTarget.iOS);
         }
@@ -29,7 +29,7 @@ namespace BaseFramework.Build
         // eg: /Users/apple/exports/iOS/Unity-iPhone.xcodeproj/project.pbxproj
         private static string pbxProjectPath = null;
 
-        [PostProcessBuild]
+        [PostProcessBuild(1)]
         public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
         {
             if (buildTarget != BuildTarget.iOS)
@@ -196,6 +196,6 @@ namespace BaseFramework.Build
             }
         }
 
-        #endregion
+#endregion
     }
 }

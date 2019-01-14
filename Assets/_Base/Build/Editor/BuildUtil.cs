@@ -1,13 +1,18 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
+using UnityEditor.Callbacks;
 
 namespace BaseFramework.Build
 {
     public class BuildUtil
     {
         private static string TAG = "[BuildUtil] ";
+
+        public static Action onPreProcessBuild;
+        public static Action<BuildTarget, string> onPostprocessBuild;
 
         public static void ExportTarget(BuildTarget buildTarget)
         {
@@ -18,15 +23,24 @@ namespace BaseFramework.Build
             } 
             else
             {
-                ExportProject(buildTarget);
+                Build2Target(buildTarget);
             }
         }
 
         private static void Build2Target(BuildTarget buildTarget)
         {
+            Log.I("BuildUtil", "DoSomething before build");
+            onPreProcessBuild.InvokeGracefully();
             Log.I("BuildUtil", "Start Export Project");
             ExportProject(buildTarget);
             BuildTargetChangedHelper.changeCallback -= Build2Target;
+        }
+
+        [PostProcessBuild(0)]
+        public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
+        {
+            Log.I("BuildUtil", "DoSomething after build");
+            onPostprocessBuild.InvokeGracefully(buildTarget, path);
         }
 
         private static bool ExportProject(BuildTarget buildTarget)
@@ -71,14 +85,13 @@ namespace BaseFramework.Build
                 Log.I(TAG,
                       "Build project succeed, size:{0}, time:{1}, outpath:{2}",
                       summary.totalSize, summary.totalTime, summary.outputPath);
+
+                return true;
             }
 
-            if (summary.result == BuildResult.Failed)
-            {
-                Log.E(TAG, "Build failed");
-            }
+            Log.E(TAG, "Build failed, message:" + summary.result);
 
-            return true;
+            return false;
         }
 
         private static string[] FindEnabledEditorScenes()

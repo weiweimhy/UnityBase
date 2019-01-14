@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEditor.iOS.Xcode.Custom;
@@ -71,7 +71,7 @@ namespace BaseFramework.Build
 
         #region Creaete Build Project Setting
 
-        [MenuItem("Build/Edit Build Project Setting", false, 0)]
+        [MenuItem("Base/Build/Edit Build Project Setting", false, 0)]
         public static void CreateSetting()
         {
             if (instance != null)
@@ -119,6 +119,29 @@ namespace BaseFramework.Build
         }
 
         #endregion
+        #endregion
+
+        #region Clear Build Project Setting
+        [MenuItem("Base/Build/Clear Build Project Setting", false, 0)]
+        private static void ClearSetting()
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(BUILD_PROJECT_SETTING_PATH);
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
+            AssetDatabase.DeleteAsset(BUILD_PROJECT_SETTING_FILE_PATH);
+            _instance = null;
+        }
+        #endregion
+
+        #region Reset Build Project Setting
+        [MenuItem("Base/Build/Reset Build Project Setting", false, 0)]
+        private static void ResetSetting()
+        {
+            ClearSetting();
+            CreateSetting();
+        }
         #endregion
     }
 
