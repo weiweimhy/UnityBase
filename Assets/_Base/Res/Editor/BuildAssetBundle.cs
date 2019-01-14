@@ -19,12 +19,14 @@ namespace BaseFramework.Build
             BuildAssetBunlde();
         }
 
-        [MenuItem("AssetBundle/Build")]
+        [MenuItem("Base/AssetBundle/Build", priority = 0)]
         public static void BuildAssetBunlde()
         {
             string assetBundleDirectory = Application.streamingAssetsPath;
             if (!Directory.Exists(assetBundleDirectory))
+            {
                 Directory.CreateDirectory(assetBundleDirectory);
+            }
 
             BuildTarget target = EditorUserBuildSettings.activeBuildTarget;
 
@@ -33,6 +35,30 @@ namespace BaseFramework.Build
                                             target);
 
             AssetDatabase.Refresh();
+        }
+
+        [MenuItem("Base/AssetBundle/Clean", priority = 1)]
+        public static void CleanAssetBunlde()
+        {
+            string assetBundleDirectory = Application.streamingAssetsPath;
+            if (Directory.Exists(assetBundleDirectory))
+            {
+                Directory.Delete(assetBundleDirectory, true);
+            }
+        }
+
+        [MenuItem("Base/AssetBundle/Rebuild", priority = 2)]
+        public static void RebuildAssetBunlde()
+        {
+            CleanAssetBunlde();
+
+            BuildAssetBunlde();
+        }
+
+        [MenuItem("Base/AssetBundle/Export Current Info")]
+        public static void ExportCurrentMessage()
+        {
+            AssetBundleManager.instance.ExportCurrntMessage();
         }
     }
 #endif

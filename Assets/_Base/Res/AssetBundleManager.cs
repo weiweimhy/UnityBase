@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace BaseFramework
 {
@@ -58,13 +59,8 @@ namespace BaseFramework
             return caches[name];
         }
 
-        public void LoadAsync(string name, Action<AssetBundleUnit> finishAction)
+        public void LoadAsync(string name, Action<AssetBundleUnit> loadAction)
         {
-            if (GetFormCache(name) != null)
-            {
-                return;
-            }
-
             List<string> assetNames = new List<string>();
             assetNames.Add(name);
 
@@ -79,15 +75,16 @@ namespace BaseFramework
 
             TaskHelper.Create<CoroutineTask>()
                       .Delay(enumerators)
-                      .Do(() => finishAction.InvokeGracefully(caches[name]))
+                      .Do(() => loadAction.InvokeGracefully(caches[name]))
                       .Execute();
         }
 
         private IEnumerator<object> Load(string assetBundleName, bool isRoot = false)
         {
-            if (!caches.ContainsKey(assetBundleName))
+            lock (obj)
             {
-                lock (obj)
+                if (!caches.ContainsKey(assetBundleName)
+                    || caches[assetBundleName] == null)
                 {
                     AssetBundleCreateRequest assetBundleCreateRequest = AssetBundle.LoadFromFileAsync(Path.Combine(Application.streamingAssetsPath, assetBundleName));
 
@@ -107,16 +104,16 @@ namespace BaseFramework
 
                     caches.Add(assetBundleName, unit);
                 }
+                else
+                {
+                    caches[assetBundleName].referenceCount++;
+                }
+
+                yield return null;
             }
-            else
-            {
-                AssetBundleUnit assetBundleUnit = caches[assetBundleName];
-                assetBundleUnit.referenceCount++;
-            }
-            yield return null;
         }
 
-        private AssetBundleUnit? GetFormCache(string name)
+        private AssetBundleUnit GetFormCache(string name)
         {
             if (caches.ContainsKey(name))
             {
@@ -146,6 +143,12 @@ namespace BaseFramework
         public void Release(AssetBundleUnit bundleUnit,
                             bool unloadAllLoadedObjects = false)
         {
+            if(bundleUnit == null)
+            {
+                Log.W(this, "Release asset bundle is null!");
+                return;
+            }
+
             string[] dependencies = bundleUnit.dependencies;
             dependencies.ForEach((index, it) => {
                 if (caches.ContainsKey(it))
@@ -163,7 +166,13 @@ namespace BaseFramework
         private void Unload(AssetBundleUnit assetBundleUnit,
                            bool unloadAllLoadedObjects = false)
         {
-            if (caches.ContainsValue(assetBundleUnit))
+            if (assetBundleUnit == null)
+            {
+                Log.W(this, "Unload asset bundle is null!");
+                return;
+            }
+
+            if (caches.ContainsKey(assetBundleUnit.name))
             {
                 caches.Remove(assetBundleUnit.name);
             }
@@ -175,6 +184,22 @@ namespace BaseFramework
             assetBundleUnit.assetBundle = null;
             assetBundleUnit.dependencies = null;
             assetBundleUnit.referenceCount = 0;
+        }
+
+        public void ExportCurrntMessage()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            caches.ForEach((key, value) => {
+                if(value != null)
+                {
+                    stringBuilder.Append("AssetBundle path:" + key + ", referenceCount:" + value.referenceCount + "\n");
+                }
+                else
+                {
+                    Log.W(this, "ExportCurrntMessage {0} assetbundle is null", key);
+                }
+            });
+            Log.I(this, stringBuilder.ToString());
         }
     }
 }

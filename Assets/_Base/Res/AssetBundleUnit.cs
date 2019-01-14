@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BaseFramework
 {
-    public struct AssetBundleUnit
+    public class AssetBundleUnit
     {
         public string name { get; set; }
         public AssetBundle assetBundle { get; set; }
