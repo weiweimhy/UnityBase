@@ -29,10 +29,17 @@ namespace BaseFramework
             {
                 tag = obj.GetLogTag();
             }
-         
+
             tag = tag.AddSuffix(" ");
 
-            message = msg.ToString().Format(args);
+            if (msg != null)
+            {
+                message = msg.ToString().Format(args);
+            }
+            else
+            {
+                message = tag;
+            }
         }
 
         public static void V(object obj, object msg, params object[] args)
@@ -62,7 +69,7 @@ namespace BaseFramework
             }
         }
 
-       
+
         public static void D(object obj, object msg, params object[] args)
         {
             if (logLevel > LogLevel.DEBUG)

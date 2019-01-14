@@ -1,10 +1,10 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace BaseFramework
 {
     public class Log2iOS
     {
-#if UNITY_IOS
+#if UNITY_IOS && !UNITY_EDITOR
     [DllImport ("__Internal")]
     public static extern void v(string msg);
 

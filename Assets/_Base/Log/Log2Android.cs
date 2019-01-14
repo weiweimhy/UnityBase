@@ -1,4 +1,4 @@
-﻿#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 using UnityEngine;
 
 namespace BaseFramework
@@ -6,47 +6,45 @@ namespace BaseFramework
 
     public class Log2Android
     {
-        static readonly string ANDROID_HELPER_PACKAGE = "com.android.helper4unity";
+        private static readonly string ANDROID_LOG_CLASS = "android.util.Log";
 
-        static readonly string LOG_CLASS = "Log";
-        static AndroidJavaClass androidLogClass;
-
-        static void InitLogClass()
+        private static AndroidJavaClass _logClass;
+        private static AndroidJavaClass logClass
         {
-            if (androidLogClass == null)
-                androidLogClass = new AndroidJavaClass(ANDROID_HELPER_PACKAGE + "." + LOG_CLASS);
+            get
+            {
+                if(_logClass == null) 
+                {
+                    _logClass = new AndroidJavaClass(ANDROID_LOG_CLASS);
+                }
+                return _logClass;
+            }
         }
 
         public static void V(string tag, string message)
         {
-            InitLogClass();
-            androidLogClass.CallStatic("v", tag, message);
+            logClass.CallStatic<int>("v", tag, message);
         }
 
         public static void D(string tag, string message)
         {
-            InitLogClass();
-            androidLogClass.CallStatic("d", tag, message);
+            logClass.CallStatic<int>("d", tag, message);
         }
 
         public static void I(string tag, string message)
         {
-            InitLogClass();
-            androidLogClass.CallStatic("i", tag, message);
+            logClass.CallStatic<int>("i", tag, message);
         }
 
         public static void W(string tag, string message)
         {
-            InitLogClass();
-            androidLogClass.CallStatic("w", tag, message);
+            logClass.CallStatic<int>("w", tag, message);
         }
 
         public static void E(string tag, string message)
         {
-            InitLogClass();
-            androidLogClass.CallStatic("e", tag, message);
+            logClass.CallStatic<int>("e", tag, message);
         }
-
     }
 }
 #endif

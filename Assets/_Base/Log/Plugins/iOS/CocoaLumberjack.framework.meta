@@ -1,7 +1,6 @@
 fileFormatVersion: 2
-guid: 1c7a4642e385d1d4591b26c110e18d41
-timeCreated: 1539685443
-licenseType: Pro
+guid: 4460030ffc51fb941b4d15af8d2a790a
+folderAsset: yes
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -11,14 +10,9 @@ PluginImporter:
   isOverridable: 0
   platformData:
   - first:
-      Android: Android
-    second:
-      enabled: 1
-      settings: {}
-  - first:
       Any: 
     second:
-      enabled: 0
+      enabled: 1
       settings: {}
   - first:
       Editor: Editor
