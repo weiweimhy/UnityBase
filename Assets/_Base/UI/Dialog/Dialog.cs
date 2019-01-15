@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace BaseFramework
+namespace BaseFramework.UI
 {
     [RequireComponent(typeof(Image))]
     public abstract class Dialog : MonoBehaviour

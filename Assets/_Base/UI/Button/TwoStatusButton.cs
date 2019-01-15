@@ -1,11 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BaseFramework
+namespace BaseFramework.UI
 {
-    /// <summary>
-    /// ����״̬�İ�ť��ÿ��״̬Sprite��ͬ
-    /// </summary>
     [RequireComponent(typeof(Button))]
     public class TwoStatusButton : MonoBehaviour
     {

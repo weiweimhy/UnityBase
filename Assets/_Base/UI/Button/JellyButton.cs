@@ -1,9 +1,9 @@
-﻿using DG.Tweening;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace BaseFramework
+namespace BaseFramework.UI
 {
     public class JellyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
