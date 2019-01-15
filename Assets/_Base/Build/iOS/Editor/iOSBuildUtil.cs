@@ -18,10 +18,10 @@ namespace BaseFramework.Build
         #endregion
 
         #region Xcode project process
-		private static readonly string unityProjectPath = Path.GetDirectoryName(Application.dataPath);
+        private static readonly string unityProjectPath = Path.GetDirectoryName(Application.dataPath);
 
-        private static readonly string xcodeEntitlementsFilePath = 
-            Path.Combine(PBXProject.GetUnityTargetName(),"project.entitlements");
+        private static readonly string xcodeEntitlementsFilePath =
+            Path.Combine(PBXProject.GetUnityTargetName(), "project.entitlements");
 
         private static string targetGuid = null;
         private static PBXProject pbxProject = null;
@@ -60,6 +60,12 @@ namespace BaseFramework.Build
 
             File.WriteAllText(pbxProjectPath, pbxProject.WriteToString());
 
+
+        }
+
+        [PostProcessBuild(2)]
+        public static void OnPostprocessBuild2(BuildTarget buildTarget, string path)
+        {
             // open project file
             CommandUtil.ExecuteCommand("open " + path);
         }
@@ -91,7 +97,7 @@ namespace BaseFramework.Build
             List<string> frameworks = BuildProjectSetting.instance.frameworks;
             if (frameworks != null)
             {
-                for(int i = 0;i < frameworks.Count; ++i)
+                for (int i = 0; i < frameworks.Count; ++i)
                 {
                     pbxProject.AddFrameworkToProject(targetGuid, frameworks[i], false);
                 }
@@ -99,16 +105,17 @@ namespace BaseFramework.Build
 
         }
 
-        static void AddFrameworkSearchPath() {
+        static void AddFrameworkSearchPath()
+        {
             // pbxProject.AddBuildProperty(targetGuid, "FRAMEWORK_SEARCH_PATHS", "xxxx");
         }
 
         static void AddLibrary()
         {
             List<string> libraries = BuildProjectSetting.instance.libraries;
-            if(libraries != null)
+            if (libraries != null)
             {
-                for(int i = 0;i < libraries.Count; ++i)
+                for (int i = 0; i < libraries.Count; ++i)
                 {
                     // 参数1 path:相对PBXSourceTree.Sdk的路径
                     // 参数2 projectPath:相对 Xcode导出工程的路径
@@ -134,9 +141,9 @@ namespace BaseFramework.Build
         static void FixProperty()
         {
             List<KeyValueItem> properties = BuildProjectSetting.instance.properties;
-            if(properties != null)
+            if (properties != null)
             {
-                for(int i = 0;i < properties.Count; ++i)
+                for (int i = 0; i < properties.Count; ++i)
                 {
                     pbxProject.AddBuildProperty(targetGuid, properties[i].key, properties[i].value);
                 }
@@ -146,7 +153,7 @@ namespace BaseFramework.Build
         static void FixPlist(string path)
         {
             List<KeyValueItem> plists = BuildProjectSetting.instance.plists;
-            if(plists != null && plists.Count > 0)
+            if (plists != null && plists.Count > 0)
             {
                 var plistPath = Path.Combine(path, "Info.plist");
                 PlistDocument plist = new PlistDocument();
@@ -154,7 +161,7 @@ namespace BaseFramework.Build
 
                 PlistElementDict rootDic = plist.root;
 
-                for(int i = 0;i< plists.Count; ++i)
+                for (int i = 0; i < plists.Count; ++i)
                 {
                     rootDic.SetString(plists[i].key, plists[i].value);
                 }
@@ -165,19 +172,19 @@ namespace BaseFramework.Build
 
         static void AddFile()
         {
-			List<Object> files = BuildProjectSetting.instance.files;
-            if(files != null)
+            List<Object> files = BuildProjectSetting.instance.files;
+            if (files != null)
             {
-                for(int i = 0;i < files.Count; ++i)
+                for (int i = 0; i < files.Count; ++i)
                 {
-					// eg:Assets/xxx/xxxx.xxx
-					string fileRelativePath = AssetDatabase.GetAssetPath(files[i]);
-					string fileName = Path.GetFileName (fileRelativePath);
-					string sourceFilePath = Path.Combine(unityProjectPath,fileRelativePath);
-					string destFilePath = Path.Combine(xcodeProjectExportPath, fileName);
-					File.Copy(sourceFilePath, destFilePath);
-					// 不调用AddFileToBuild IPA运行时会Crash
-					pbxProject.AddFileToBuild(targetGuid, pbxProject.AddFile(destFilePath, fileName));
+                    // eg:Assets/xxx/xxxx.xxx
+                    string fileRelativePath = AssetDatabase.GetAssetPath(files[i]);
+                    string fileName = Path.GetFileName(fileRelativePath);
+                    string sourceFilePath = Path.Combine(unityProjectPath, fileRelativePath);
+                    string destFilePath = Path.Combine(xcodeProjectExportPath, fileName);
+                    File.Copy(sourceFilePath, destFilePath);
+                    // 不调用AddFileToBuild IPA运行时会Crash
+                    pbxProject.AddFileToBuild(targetGuid, pbxProject.AddFile(destFilePath, fileName));
                 }
             }
         }
@@ -187,7 +194,7 @@ namespace BaseFramework.Build
             List<iOSCapabilityType> capabilitys = BuildProjectSetting.instance.capabilitys;
             if (capabilitys != null)
             {
-                for(int i = 0; i< capabilitys.Count; ++i)
+                for (int i = 0; i < capabilitys.Count; ++i)
                 {
                     PBXCapabilityType type = iOSCapabilityTypeHelper.GetPBXCapabilityType(capabilitys[i]);
                     if (type != null)
@@ -199,6 +206,6 @@ namespace BaseFramework.Build
             }
         }
 
-#endregion
+        #endregion
     }
 }

@@ -53,7 +53,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("testCrash");
 #elif UNITY_IOS && !UNITY_EDITOR
-            testCrash();
+            fbc_testCrash();
 #endif
         }
 
@@ -62,7 +62,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("log", msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            logEvent(msg);
+            fbc_logEvent(msg);
 #endif
         }
 
@@ -82,8 +82,9 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("log", priority, tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            Log.I("FirebaseCrashlyticsUtil", "Log event, msg:" + tag + ", " + msg);
-            logEvent(msg);
+            // iOS not support this method
+            // Log.I("FirebaseCrashlyticsUtil", "Log event, msg:" + tag + ", " + msg);
+            // fbc_logEvent(msg);
 #endif
         }
 
@@ -92,7 +93,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("setString", key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            setString(key, value);
+            fbc_setString(key, value);
 #endif
         }
 
@@ -101,7 +102,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("setBool", key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            setBool(key, value);
+            fbc_setBool(key, value);
 #endif
         }
 
@@ -110,7 +111,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("setDouble", key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            setFloat(key, (float)value);
+            fbc_setFloat(key, (float)value);
 #endif
         }
 
@@ -119,7 +120,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("setFloat", key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            setFloat(key, value);
+           fbc_setFloat(key, value);
 #endif
         }
 
@@ -128,7 +129,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("setInt", key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            setInt(key, value);
+            fbc_setInt(key, value);
 #endif
         }
 
@@ -137,7 +138,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("setUserIdentifier", id);
 #elif UNITY_IOS && !UNITY_EDITOR
-            setUserIdentifier(id);
+            fbc_setUserIdentifier(id);
 #endif
         }
 
@@ -145,35 +146,30 @@ namespace BaseFramework.ThirdPlugin.Firebase
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             crashlyticsClass.CallStatic("postException", msg, stackTrace);
-#elif UNITY_IOS && !UNITY_EDITOR
-            postException(msg + "\n" + stackTrace);
 #endif
         }
 
 #if UNITY_IOS && !UNITY_EDITOR
 	    [DllImport ("__Internal")]
-	    public static extern void testCrash();
+	    public static extern void fbc_testCrash();
 
         [DllImport ("__Internal")]
-	    public static extern void logEvent(string msg);
+	    public static extern void fbc_logEvent(string msg);
         
         [DllImport ("__Internal")]
-	    public static extern void setString(string key, string value);
+	    public static extern void fbc_setString(string key, string value);
 
         [DllImport ("__Internal")]
-	    public static extern void setBool(string key, bool value);
+	    public static extern void fbc_setBool(string key, bool value);
 
         [DllImport ("__Internal")]
-	    public static extern void setFloat(string key, float value);
+	    public static extern void fbc_setFloat(string key, float value);
 
         [DllImport ("__Internal")]
-	    public static extern void setInt(string key, int value);
+	    public static extern void fbc_setInt(string key, int value);
         
         [DllImport ("__Internal")]
-	    public static extern void setUserIdentifier(string id);  
-        
-        [DllImport ("__Internal")]
-	    public static extern void postException(string msg);
+	    public static extern void fbc_setUserIdentifier(string id);  
 #endif
     }
 }

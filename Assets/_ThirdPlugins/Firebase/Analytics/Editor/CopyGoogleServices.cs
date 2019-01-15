@@ -3,6 +3,7 @@ using UnityEditor;
 using BaseFramework.Build;
 using System.IO;
 
+#if UNITY_ANDROID && UNITY_EDITOR
 namespace BaseFramework.ThirdPlugin.Firebase
 {
     [InitializeOnLoad]
@@ -33,6 +34,9 @@ namespace BaseFramework.ThirdPlugin.Firebase
 
             File.Copy(googleServecesFilePath, Path.Combine(path, Application.productName + "/" + googleServecesFileName));
             Log.I("CopyGoogleServices", "copy google-services.json success!");
+
+            
         }
     }
 }
+#endif

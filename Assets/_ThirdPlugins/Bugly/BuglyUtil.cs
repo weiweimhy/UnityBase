@@ -66,7 +66,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
             {
                 initFinished = true;
 
-                init(id, isDebug);
+                //init(id, isDebug);
             }
 #endif
         }
@@ -91,7 +91,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
             {
                 initFinished = true;
 
-                init(id, isDebug);
+                //init(id, isDebug);
             }
 #endif
         }
@@ -111,7 +111,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("addExtraData", msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            addExtraData(msg);
+            //addExtraData(msg);
 #endif
         }
 
@@ -120,7 +120,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("postException", msg, stackTrace);
 #elif UNITY_IOS && !UNITY_EDITOR
-            postException(msg + "\n" + stackTrace);
+            //postException(msg + "\n" + stackTrace);
 #endif
         }
 
@@ -133,7 +133,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyClass.CallStatic("setUserSceneTag", AndroidNative.currentActivity, sceneId);
 #elif UNITY_IOS && !UNITY_EDITOR
-            setUserSceneTag(sceneId);
+            //setUserSceneTag(sceneId);
 #endif
         }
 
@@ -148,7 +148,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyClass.CallStatic("putUserData", AndroidNative.currentActivity, key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            putUserData(key, value);
+            //putUserData(key, value);
 #endif
         }
 
@@ -157,7 +157,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyClass.CallStatic("setUserId", id);
 #elif UNITY_IOS && !UNITY_EDITOR
-            setUserId(id);
+            //setUserId(id);
 #endif
         }
 
@@ -166,7 +166,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("v", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            v(tag + "\t" + msg);
+            //v(tag + "\t" + msg);
 #endif
         }
 
@@ -175,7 +175,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("d", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            d(tag + "\t" + msg);
+            //d(tag + "\t" + msg);
 #endif
         }
 
@@ -184,7 +184,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("i", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            i(tag + "\t" + msg);
+            //i(tag + "\t" + msg);
 #endif
         }
 
@@ -193,7 +193,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("w", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            w(tag + "\t" + msg);
+            //w(tag + "\t" + msg);
 #endif
         }
 
@@ -202,46 +202,46 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("e", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            e(tag + "\t" + msg);
+            //e(tag + "\t" + msg);
 #endif
         }
 
-#if UNITY_IOS
-	    [DllImport ("__Internal")]
-	    public static extern void init(string id, bool debug);
+        //#if UNITY_IOS
+        //	    [DllImport ("__Internal")]
+        //	    public static extern void init(string id, bool debug);
 
-	    [DllImport ("__Internal")]
-	    public static extern void v(string msg);
+        //	    [DllImport ("__Internal")]
+        //	    public static extern void v(string msg);
 
-        [DllImport ("__Internal")]
-	    public static extern void d(string msg);
+        //        [DllImport ("__Internal")]
+        //	    public static extern void d(string msg);
 
-        [DllImport ("__Internal")]
-	    public static extern void i(string msg);
+        //        [DllImport ("__Internal")]
+        //	    public static extern void i(string msg);
 
-        [DllImport ("__Internal")]
-	    public static extern void w(string msg);
+        //        [DllImport ("__Internal")]
+        //	    public static extern void w(string msg);
 
-        [DllImport ("__Internal")]
-	    public static extern void e(string msg);   
-        
-        [DllImport ("__Internal")]
-	    public static extern void setUserId(string id);
-        
-        [DllImport ("__Internal")]
-	    public static extern void putUserData(string key, string value);
+        //        [DllImport ("__Internal")]
+        //	    public static extern void e(string msg);   
 
-        [DllImport ("__Internal")]
-	    public static extern void setUserSceneTag(int tagId);   
-        
-        [DllImport ("__Internal")]
-	    public static extern void postException(string msg);
+        //        [DllImport ("__Internal")]
+        //	    public static extern void setUserId(string id);
 
-        [DllImport ("__Internal")]
-	    public static extern void addExtraData(string msg);
+        //        [DllImport ("__Internal")]
+        //	    public static extern void putUserData(string key, string value);
 
-	    [DllImport ("__Internal")]
-	    public static extern void testCrash();
-#endif
+        //        [DllImport ("__Internal")]
+        //	    public static extern void setUserSceneTag(int tagId);   
+
+        //        [DllImport ("__Internal")]
+        //	    public static extern void postException(string msg);
+
+        //        [DllImport ("__Internal")]
+        //	    public static extern void addExtraData(string msg);
+
+        //	    [DllImport ("__Internal")]
+        //	    public static extern void testCrash();
+        //#endif
     }
 }

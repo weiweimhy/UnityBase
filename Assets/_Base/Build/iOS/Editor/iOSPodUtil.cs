@@ -74,8 +74,8 @@ namespace BaseFramework.Build
 
         private static bool ExecutedPod(string podPath, string projectPath)
         {
-            string commandLine = string.Format("cd {0} && {1} update && {2} install",
-                                               projectPath, podPath, podPath);
+            string commandLine = string.Format("cd {0} && {1} repo update && {2} update && {3} install",
+                                               projectPath, podPath, podPath, podPath);
             Log.I(TAG, "start executed command\n{0}", commandLine);
             CommandUtil.CommandResult result = CommandUtil.ExecuteCommand(commandLine);
 

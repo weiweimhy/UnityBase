@@ -28,9 +28,7 @@ MonoBehaviour:
     value: YES
   - key: OTHER_LDFLAGS
     value: 
-  plists:
-  - key: NSLocationWhenInUseUsageDescription
-    value: '"Bible Word Puzzle" would like to use your current location'
+  plists: []
   files: []
   androidVersionName: 1.0.0
   androidVersionCode: 1

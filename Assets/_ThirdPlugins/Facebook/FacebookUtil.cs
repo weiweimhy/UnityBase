@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 namespace BaseFramework.ThirdPlugin.Facebook
 {
@@ -24,6 +25,8 @@ namespace BaseFramework.ThirdPlugin.Facebook
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", AndroidNative.currentActivity, eventName);
+#elif UNITY_IOS && !UNITY_EDITOR
+            fb_logEvent(eventName, 0, "");
 #endif
         }
 
@@ -31,6 +34,8 @@ namespace BaseFramework.ThirdPlugin.Facebook
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", AndroidNative.currentActivity, eventName, value);
+#elif UNITY_IOS && !UNITY_EDITOR
+            fb_logEvent(eventName, value, "");
 #endif
         }
 
@@ -38,6 +43,8 @@ namespace BaseFramework.ThirdPlugin.Facebook
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", AndroidNative.currentActivity, eventName, AndroidNative.ConvertDictToHashMap(parameters));
+#elif UNITY_IOS && !UNITY_EDITOR
+            fb_logEvent(eventName, 0, parameters);
 #endif
         }
 
@@ -45,7 +52,14 @@ namespace BaseFramework.ThirdPlugin.Facebook
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", AndroidNative.currentActivity, eventName, value, AndroidNative.ConvertDictToHashMap(parameters));
+#elif UNITY_IOS && !UNITY_EDITOR
+            fb_logEvent(eventName, value, parameters);
 #endif
         }
+
+#if UNITY_IOS && !UNITY_EDITOR
+	    [DllImport ("__Internal")]
+	    public static extern void fb_logEvent(string eventName, double value, string json);
+#endif
     }
 }

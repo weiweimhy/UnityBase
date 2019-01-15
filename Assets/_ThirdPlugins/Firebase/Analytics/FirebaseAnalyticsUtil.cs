@@ -7,6 +7,8 @@ namespace BaseFramework.ThirdPlugin.Firebase
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
         private static AndroidJavaClass utilClass;
+#elif UNITY_IOS && !UNITY_EDITOR
+        private static bool initFinished = false;
 #endif
 
         public static void Init()
@@ -17,6 +19,13 @@ namespace BaseFramework.ThirdPlugin.Firebase
                 utilClass = new AndroidJavaClass("com.android4unity.util.firebase.AnalyticsUtil");
                 utilClass.CallStatic("initAnalytics", AndroidNative.currentActivity);
             }
+#elif UNITY_IOS && !UNITY_EDITOR
+            if(!initFinished)
+            {
+                initFinished = true;
+
+                fba_init();
+            }
 #endif
         }
 
@@ -26,7 +35,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", eventName);
 #elif UNITY_IOS && !UNITY_EDITOR
-            logEvent(eventName);
+            fba_logEvent(eventName);
 #endif
         }
 
@@ -36,7 +45,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", eventName, key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            logEventString(eventName, key, value);
+            fba_logEventString(eventName, key, value);
 #endif
         }
 
@@ -46,7 +55,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", eventName, key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            logEventInt(eventName, key, value);
+            fba_logEventInt(eventName, key, value);
 #endif
         }
 
@@ -56,7 +65,7 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", eventName, key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            logEventFloat(eventName, key, value);
+            fba_logEventFloat(eventName, key, value);
 #endif
         }
 
@@ -66,25 +75,28 @@ namespace BaseFramework.ThirdPlugin.Firebase
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", eventName, key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            logEventLong(eventName, key, value);
+            fba_logEventLong(eventName, key, value);
 #endif
         }
 
 #if UNITY_IOS && !UNITY_EDITOR
+        [DllImport ("__Internal")]
+        public static extern void fba_init();
+
 	    [DllImport ("__Internal")]
-	    public static extern void logEvent(string eventName);
+	    public static extern void fba_logEvent(string eventName);
 
 	    [DllImport ("__Internal")]
-	    public static extern void logEventString(string eventName, string key, string value);
+	    public static extern void fba_logEventString(string eventName, string key, string value);
 
         [DllImport ("__Internal")]
-	    public static extern void logEventInt(string eventName, string key, int value);
+	    public static extern void fba_logEventInt(string eventName, string key, int value);
 
         [DllImport ("__Internal")]
-	    public static extern void logEventFloat(string eventName, string key, float value);
+	    public static extern void fba_logEventFloat(string eventName, string key, float value);
 
         [DllImport ("__Internal")]
-	    public static extern void logEventLong(string eventName, string key, long value);
+	    public static extern void fba_logEventLong(string eventName, string key, long value);
 #endif
     }
 }
