@@ -44,7 +44,7 @@ namespace BaseFramework.ThirdPlugin.Facebook
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", AndroidNative.currentActivity, eventName, AndroidNative.ConvertDictToHashMap(parameters));
 #elif UNITY_IOS && !UNITY_EDITOR
-            fb_logEvent(eventName, 0, parameters);
+            fb_logEvent(eventName, 0, JsonUtility.ToJson(parameters));
 #endif
         }
 
@@ -53,7 +53,7 @@ namespace BaseFramework.ThirdPlugin.Facebook
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("logEvent", AndroidNative.currentActivity, eventName, value, AndroidNative.ConvertDictToHashMap(parameters));
 #elif UNITY_IOS && !UNITY_EDITOR
-            fb_logEvent(eventName, value, parameters);
+            fb_logEvent(eventName, value, JsonUtility.ToJson(parameters));
 #endif
         }
 
