@@ -15,11 +15,11 @@ target 'Unity-iPhone' do
     pod 'Crashlytics', '~> 3.12.0'
 
     # Bugly
-    # pod 'Bugly', '~> 2.5.0'
+    pod 'Bugly', '~> 2.5.0'
 
     # AppsFlyer
-    # pod 'AppsFlyerFramework', '~> 4.8.6'
+    pod 'AppsFlyerFramework', '~> 4.8.6'
 
     # Facebook
-    # pod 'FBSDKCoreKit', '~> 4.37.0'
+    pod 'FBSDKCoreKit', '~> 4.37.0'
 end
