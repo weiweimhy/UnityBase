@@ -10,13 +10,8 @@
 
 @implementation JSONHelper
 
-+ (nullable NSDictionary *)convert2Dictionary:(const char *)json {
-    NSString *nsJSONString = [NSString stringWithCString:json encoding:NSStringEncodingConversionAllowLossy];
-    if (nsJSONString.length <= 0) {
-        return nil;
-    }
-
-    NSData *nsJSONData = [nsJSONString dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
++ (nullable NSDictionary *)convertNString2Dictionary:(NSString *)json {
+    NSData *nsJSONData = [json dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     if (nsJSONData.length <= 0) {
         return nil;
     }
@@ -26,22 +21,40 @@
     if (![JSONObject isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
-
+    
     return JSONObject;
 }
 
-+ (nullable const char *)convert2CString:(NSDictionary *)dictionary {
++ (nullable NSDictionary *)convertCString2Dictionary:(const char *)json {
+    NSString *nsJSONString = [NSString stringWithCString:json encoding:NSStringEncodingConversionAllowLossy];
+    if (nsJSONString.length <= 0) {
+        return nil;
+    }
+
+    return [self convertNString2Dictionary:nsJSONString];
+}
+
++ (nullable NSString *)convertDictionary2NSString:(NSDictionary *)dictionary {
     if (!dictionary) {
-        return NULL;
+        return nil;
     }
     
     NSError *error = nil;
     NSData *nsJSONData = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:&error];
     if (nsJSONData.length <= 0) {
-        return NULL;
+        return nil;
     }
-
+    
     NSString *nsJSONString = [[NSString alloc] initWithData:nsJSONData encoding:NSUTF8StringEncoding];
+    if (nsJSONString.length <= 0) {
+        return nil;
+    }
+    
+    return nsJSONString;
+}
+
++ (nullable const char *)convertDictionary2CString:(NSDictionary *)dictionary {
+    NSString *nsJSONString = [self convertDictionary2NSString:dictionary];
     if (nsJSONString.length <= 0) {
         return NULL;
     }

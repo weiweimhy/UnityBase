@@ -66,7 +66,12 @@ namespace BaseFramework.ThirdPlugin.Bugly
             {
                 initFinished = true;
 
-                //init(id, isDebug);
+                bugly_init(id, isDebug, 5, true, 3f);
+
+                if (enableExceptionHandler)
+                {
+                    EnableExceptionHandler();
+                }
             }
 #endif
         }
@@ -91,18 +96,21 @@ namespace BaseFramework.ThirdPlugin.Bugly
             {
                 initFinished = true;
 
-                //init(id, isDebug);
+                bugly_init(id, isDebug, 5, true, 3f);
+
+                if (enableExceptionHandler)
+                {
+                    EnableExceptionHandler();
+                }
             }
 #endif
         }
 
         private static void EnableExceptionHandler()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if !UNITY_EDITOR
             UnityCrashlytics.Init();
-            UnityCrashlytics.onPostException += (condition, stackTrace) => {
-                utilClass.CallStatic("postException", condition, stackTrace);
-            };
+            UnityCrashlytics.onPostException += PostException;
 #endif
         }
 
@@ -111,7 +119,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("addExtraData", msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //addExtraData(msg);
+            bugly_addExtraData(msg);
 #endif
         }
 
@@ -120,7 +128,23 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             utilClass.CallStatic("postException", msg, stackTrace);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //postException(msg + "\n" + stackTrace);
+            if (!string.IsNullOrEmpty(msg))
+            {
+                if (msg.Contains("\n"))
+                {
+                    string[] temp = msg.Split('\n');
+                    bugly_reportException(temp[0], temp[1], stackTrace);
+                }
+                else if (msg.Contains(":"))
+                {
+                    string[] temp = msg.Split(':');
+                    bugly_reportException(temp[0], temp[1], stackTrace);
+                }
+                else 
+                {
+                    bugly_reportException("postException", msg, stackTrace);
+                }
+            }     
 #endif
         }
 
@@ -133,7 +157,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyClass.CallStatic("setUserSceneTag", AndroidNative.currentActivity, sceneId);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //setUserSceneTag(sceneId);
+            bugly_setUserSceneTag(sceneId);
 #endif
         }
 
@@ -148,7 +172,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyClass.CallStatic("putUserData", AndroidNative.currentActivity, key, value);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //putUserData(key, value);
+            bugly_putUserData(key, value);
 #endif
         }
 
@@ -157,7 +181,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyClass.CallStatic("setUserId", id);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //setUserId(id);
+            bugly_setUserId(id);
 #endif
         }
 
@@ -166,7 +190,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("v", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //v(tag + "\t" + msg);
+            bugly_v(tag + "\t" + msg);
 #endif
         }
 
@@ -175,7 +199,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("d", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //d(tag + "\t" + msg);
+            bugly_d(tag + "\t" + msg);
 #endif
         }
 
@@ -184,7 +208,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("i", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //i(tag + "\t" + msg);
+            bugly_i(tag + "\t" + msg);
 #endif
         }
 
@@ -193,7 +217,7 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("w", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //w(tag + "\t" + msg);
+            bugly_w(tag + "\t" + msg);
 #endif
         }
 
@@ -202,46 +226,46 @@ namespace BaseFramework.ThirdPlugin.Bugly
 #if UNITY_ANDROID && !UNITY_EDITOR
             buglyLogClass.CallStatic("e", tag, msg);
 #elif UNITY_IOS && !UNITY_EDITOR
-            //e(tag + "\t" + msg);
+            bugly_e(tag + "\t" + msg);
 #endif
         }
 
-        //#if UNITY_IOS
-        //	    [DllImport ("__Internal")]
-        //	    public static extern void init(string id, bool debug);
+#if UNITY_IOS && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        public static extern void bugly_init(string key, bool debug, int reportLevel, bool openBlock, float blockTime);
 
-        //	    [DllImport ("__Internal")]
-        //	    public static extern void v(string msg);
+        [DllImport("__Internal")]
+        public static extern void bugly_v(string msg);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void d(string msg);
+        [DllImport("__Internal")]
+        public static extern void bugly_d(string msg);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void i(string msg);
+        [DllImport("__Internal")]
+        public static extern void bugly_i(string msg);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void w(string msg);
+        [DllImport("__Internal")]
+        public static extern void bugly_w(string msg);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void e(string msg);   
+        [DllImport("__Internal")]
+        public static extern void bugly_e(string msg);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void setUserId(string id);
+        [DllImport("__Internal")]
+        public static extern void bugly_setUserId(string id);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void putUserData(string key, string value);
+        [DllImport("__Internal")]
+        public static extern void bugly_putUserData(string key, string value);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void setUserSceneTag(int tagId);   
+        [DllImport("__Internal")]
+        public static extern void bugly_setUserSceneTag(int tagId);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void postException(string msg);
+        [DllImport("__Internal")]
+        public static extern void bugly_addExtraData(string msg);
 
-        //        [DllImport ("__Internal")]
-        //	    public static extern void addExtraData(string msg);
+        [DllImport("__Internal")]
+        public static extern void bugly_reportException(string name, string reason, string info);
 
-        //	    [DllImport ("__Internal")]
-        //	    public static extern void testCrash();
-        //#endif
+        [DllImport("__Internal")]
+        public static extern void bugly_testCrash();
+#endif
     }
 }

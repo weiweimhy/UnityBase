@@ -8,7 +8,7 @@ namespace BaseFramework
 {
     public class UnityCrashlytics
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if !UNITY_EDITOR
         public static Action<string, string> onPostException;
 
         private static bool initFinished = false;
@@ -16,7 +16,7 @@ namespace BaseFramework
 
         public static void Init()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if !UNITY_EDITOR
             if(!initFinished)
             {
                 initFinished = true;
@@ -29,7 +29,7 @@ namespace BaseFramework
 
         private static void OnLogMessageReceived(string condition, string stackTrace, LogType type)
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if !UNITY_EDITOR
             if(type == LogType.Exception || type == LogType.Error)
             { 
                 if (string.IsNullOrEmpty(stackTrace))
@@ -97,7 +97,6 @@ namespace BaseFramework
                     {
                     }
                 }
-
                 onPostException.InvokeGracefully(condition, stackTrace);
             }
 #endif
@@ -105,7 +104,7 @@ namespace BaseFramework
 
         private static void OnUncaughtExceptionHandler(object sender, System.UnhandledExceptionEventArgs args)
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if !UNITY_EDITOR
             if (args == null || args.ExceptionObject == null)
             {
                 return;
@@ -127,7 +126,7 @@ namespace BaseFramework
 
         private static void HandleException(System.Exception e)
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if !UNITY_EDITOR
             if (e == null)
             {
                 return;

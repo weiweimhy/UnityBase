@@ -14,7 +14,7 @@ extern "C" {
     void fb_logEvent(const char * eventName, double value, const char * json) {
         NSString *nsEventName = [NSString stringWithCString:eventName encoding:NSStringEncodingConversionAllowLossy];
         assert(nsEventName.length > 0);
-        NSDictionary *JSONValue = [JSONHelper convert2Dictionary:json];
+        NSDictionary *JSONValue = [JSONHelper convertCString2Dictionary:json];
         [FBSDKAppEvents logEvent:nsEventName valueToSum:value parameters:JSONValue];
     }
 }
